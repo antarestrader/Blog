@@ -1,0 +1,28 @@
+!!! XML
+!!!
+%html
+  %head
+    %title Antares Trader Blog
+    %link{:rel=>"stylesheet", :href=>"/stylesheets/screen.css", :type=>"text/css", :media=>"screen, projector", :charset=>"utf-8"}
+    %link{:rel=>"stylesheet", :href=>"/stylesheets/print.css", :type=>"text/css", :media=>"print", :charset=>"utf-8"}
+    /[if IE]
+      %link{:rel=>"stylesheet", :href=>"stylesheets/ie.css", :type=>"text/css", :media=>"screen, projector, printer", :charset=>"utf-8"}
+  %body.application
+    #container
+      .header
+        .headerimg
+          %h1 Antares Trader Blog
+          %p#tagline The universe at your fingertips
+          #mainmenu= partial('partials/menu')
+      #main
+        = catch_content :for_layout
+      #sidebar  
+        = thrown_content?(:sidebar) ? catch_content(:sidebar) : partial('partials/sidebar')
+      #footer
+        %p Designed by John F. Miller, (C) 2009.  
+        %p
+          Based on the 
+          Wordpress #{link_to 'Mandigo theme','http://www.onehertz.com/portfolio/wordpress/'} by tom.
+        %p
+          This blog powered by Merb, Haml/Sass, Compass, MySQL, NginX, Mongrel, Ubuntu Linux and 
+          the RDiscount Markdown Library.

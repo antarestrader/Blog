@@ -1,0 +1,12 @@
+%div[post]
+  .header
+    %h2= link_to(post.title, resource(post))
+    - if post.published_at
+      %p.day= post.published_at.strftime("%A")
+      %p.date= post.published_at.strftime("%b %d, %Y")
+      %p.time= post.published_at.strftime("%l:%M %P")
+  .content
+    .summary
+      ~ post.summary
+    - if post.extended
+      =link_to("read more",resource(post))

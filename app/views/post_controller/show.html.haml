@@ -1,0 +1,10 @@
+%div[@post]
+  .header
+    %h1= @post.title
+    - if @post.published_at
+      %p.day= @post.published_at.strftime("%A")
+      %p.date= @post.published_at.strftime("%b %d, %Y")
+      %p.time= @post.published_at.strftime("%l:%M %P")
+  .content
+    .text
+      ~ @post.to_html

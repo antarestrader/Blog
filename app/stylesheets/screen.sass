@@ -1,0 +1,141 @@
+!blueprint_grid_columns ||= 21
+!blueprint_grid_width   ||= 40px
+!blueprint_grid_margin  ||= 8px
+
+@import blueprint.sass
+@import blueprint/modules/fancy_type
+@import compass/utilities.sass
+@import compass/reset.sass
+
+!background = #333742 + #555555 + #353535
+!contrast = #883333
+
+=colborder2
+  :padding-left= !blueprint_grid_width - 0.5 * !blueprint_grid_margin - 3
+  :margin-left= !blueprint_grid_width - 0.5 * !blueprint_grid_margin
+  :border-left 3px solid #333742
+  
+=border2
+  :padding-left = !blueprint_grid_margin / 2 - 2
+  :margin-left = !blueprint_grid_margin / 2- 1
+  :border-left 3px solid #838792
+
+
++blueprint-typography
+
+body
+  :background-color= !background-#505050
+  :color= #000000 + #202020
+  
+hr
+  +colruler
+  
+#container
+  +container
+  :background-color= !background
+  padding: 10px
+  //padding-top: 36px
+  margin-top: 36px
+  margin-bottom: 150px
+  border: 2px solid #883333
+  
+  >.header
+    +column(21)
+    padding-top: 8px
+    padding-bottom: 8px
+    margin-bottom: 1.5em
+    :background
+      :image= image_url("/images/header-1024.png")
+      :repeat no-repeat
+      :position 50% 100%
+    
+    .headerimg
+      :background
+        :image= image_url("/images/head-1024.jpg")
+        :repeat no-repeat
+        :position 50% 100%
+      height: 223px
+      position: relative
+      h1
+        text-indent: -9999em
+        margin: 0px
+        
+      #tagline
+        text-indent: -9999em
+        
+      #mainmenu
+        +horizontal-list(6px)      
+        position: absolute
+        bottom: 0px
+        right: 55px
+      a
+        color: white
+        text-decoration: none
+        font-size: 125%
+        
+      a:hover
+        :color= !contrast
+
+  #main
+    +column(16)
+    
+    .post
+      +clearfix
+      margin-bottom: 8px
+      padding-top: 2em
+      padding-bottom: 3em
+      :background-color= !background + #050510
+    
+    .header
+      +column(4)
+      //background-color: #0000FF
+      text-align: right
+      
+      h1,h2,h3,h4,h5,h6
+        font-size: 120%
+        :font-variant small-caps
+        font-weight: bold
+        :color= !contrast -#101010
+        margin-bottom: 0px
+      
+      p
+        margin: 0px
+      
+      a
+        color: inherit
+        text-decoration: inherit
+        
+      a:hover
+        text-decoration: underline
+      
+    .content
+      +column(11,"last")
+      +border2
+      :font-family serif
+      :padding-left 20px
+      
+      .summary, .text
+        h1, h2, h3, h4, h5, h6
+          font-size: 100%
+          font-weight: bold
+          margin-left: -10px
+        *:first-child::first-letter
+          font-family: georga, serif
+          font-size: 300%
+          font-weight: bold
+          float: left
+          line-height: 36px
+          padding: 4px
+        p:last-child
+          margin-bottom: 0px
+  #sidebar
+    +column(5, "last")
+    
+  #footer
+    +column(11, "last")
+    :margin-top 1.5em
+    :margin-left= !blueprint_grid_width * 3
+    p
+      margin: 0px
+      text-align: center
+    

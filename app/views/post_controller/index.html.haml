@@ -1,0 +1,5 @@
+= partial :post, :with=>@posts
+- if @more
+  %p.pager= link_to("older posts",url(:home,:page=>@more))
+- if @less
+  %p.pager= link_to("newer posts",url(:home,:page=>@less))

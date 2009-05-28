@@ -1,0 +1,2 @@
+default: -r features/steps -r features/support -r features/authentication/steps --format pretty features -i
+current: -p default -t current
