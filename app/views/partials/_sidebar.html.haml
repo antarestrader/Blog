@@ -1,1 +1,22 @@
-Sidebar
+%h2 Pages
+%p= link_to('About Us', url(:login))
+%p= link_to('Contact', url(:login))
+%p= link_to('History of Antares Trader', url(:login))
+%p= link_to('Contact', url(:login))
+%h2 Categories
+- @categories.each do |category|
+  %p #{link_to(category.name, resource(category))} (#{category.post_count}): #{category.description}
+%h2 Links
+%p= link_to('The Ruby Language', 'http://ruby-lang.org')
+%p= link_to('Merb', url(:home))
+%p= link_to('Haml/Sass', url(:home))
+%p= link_to('Compass', url(:home))
+%p= link_to('RSpec', 'http://rspec.info/')
+%p= link_to('Cucumber', url(:login))
+%p= link_to('My Personal Blog', 'http://jfmjourney.com')
+%p= link_to('Ubuntu', url(:home))
+%h2 Statistics
+%p #{Post.published.count} : Number of posts
+%h2 Administration
+%p= link_to('Sign In', url(:login))
+%p= link_to('Admin Home', url(:admin))

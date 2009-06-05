@@ -1,4 +1,6 @@
 class PostController < Application
+  
+  before :ensure_authenticated, :exclude => [:index, :show]
 
   def index
     cnt = 10
@@ -16,6 +18,27 @@ class PostController < Application
     @post = Post.published.get id
     raise NotFound unless @post
     render
+  end
+  
+  def edit(id)
+    @post = Post.published.get id
+    raise NotFound unless @post
+    render
+  end
+  
+  def update(id)
+    #TODO This is a mess!
+    @post = Post.published.get id
+    raise NotFound unless @post
+    p = params['post']
+    @post.categories.each {|c| c.update_attributes(:post_count=>nil)}
+    @post.categories.clear
+    @post.save
+    @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
+    @post.categories.each {|c| c.update_attributes(:post_count=>nil)}
+    @post.attributes= p
+    @post.save
+    redirect resource(@post)
   end
   
   def new

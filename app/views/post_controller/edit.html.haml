@@ -1,2 +1,13 @@
-#container
-  Edit Page
+%div[@post]
+  .header
+    %h1= @post.new_record? ? "New Post" : @post.title
+  .content
+    = form_for(@post, :action=>resource(@post)) do
+      %p= text_field :title, :label => "title"
+      %p~ text_area :text, :label => "text", :cols=>70, :rows=>20
+      = fieldset :legend=>"Categories" do
+        %ul
+          - Category.all.each do |category|
+            %li
+              = check_box :name=>'post[category_ids][]', :checked=>(@post.categories.include? category), :label=>category.name, :value=>category.id, :id=>"caregory_ids_#{category.name.downcase.gsub(/\s/,'_')}"
+      %p= submit "Post"

@@ -1,4 +1,6 @@
-= partial :post, :with=>@posts
+-if @headline
+  %h2= h(@headline)
+= partial 'post_controller/post', :with=>@posts
 - if @more
   %p.pager= link_to("older posts",url(:home,:page=>@more))
 - if @less

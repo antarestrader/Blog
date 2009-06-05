@@ -96,7 +96,12 @@ hr
         :font-variant small-caps
         font-weight: bold
         :color= !contrast -#101010
+        margin-top: 18px
         margin-bottom: 0px
+     
+      h1,h2
+        margin-top: 0px
+     
       
       p
         margin: 0px
@@ -119,7 +124,7 @@ hr
           font-size: 100%
           font-weight: bold
           margin-left: -10px
-        *:first-child::first-letter
+        p:first-child::first-letter
           font-family: georga, serif
           font-size: 300%
           font-weight: bold
@@ -130,7 +135,27 @@ hr
           margin-bottom: 0px
   #sidebar
     +column(5, "last")
-    
+    h2:first-child
+      :margin-top 0px    
+    h2
+      font-size: 150%
+      font-weight: bold
+      :color= !contrast
+      :border-top 3px solid #838792
+      :line-height 24px
+      :margin-top 12px
+      
+    p
+      margin-left: 2em
+      text-indent: -1em
+      margin-bottom: 0px
+      
+    a
+      text-decoration: none
+    a:hover
+      text-decoration: underline
+      :color= !contrast
+        
   #footer
     +column(11, "last")
     :margin-top 1.5em
