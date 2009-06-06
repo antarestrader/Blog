@@ -2,8 +2,8 @@
   .header
     %h1= @post.new_record? ? "New Post" : @post.title
   .content
-    = form_for(@post, :action=>resource(@post)) do
-      %p= text_field :title, :label => "title"
+    = form_for(@post, :action=>@action) do
+      %p= text_field :title, :label => "title", :size=>61
       %p~ text_area :text, :label => "text", :cols=>70, :rows=>20
       = fieldset :legend=>"Categories" do
         %ul

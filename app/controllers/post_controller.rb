@@ -22,20 +22,16 @@ class PostController < Application
   
   def edit(id)
     @post = Post.published.get id
+    @action = resource(@post)
     raise NotFound unless @post
     render
   end
   
   def update(id)
-    #TODO This is a mess!
     @post = Post.published.get id
     raise NotFound unless @post
     p = params['post']
-    @post.categories.each {|c| c.update_attributes(:post_count=>nil)}
-    @post.categories.clear
-    @post.save
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
-    @post.categories.each {|c| c.update_attributes(:post_count=>nil)}
     @post.attributes= p
     @post.save
     redirect resource(@post)
@@ -43,7 +39,18 @@ class PostController < Application
   
   def new
     @post = Post.new
+    @action = url(:posts)
     render :template=>'post_controller/edit'
+  end
+  
+  def create
+    p = params['post']
+    @post = Post.new
+    @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
+    @post.attributes= p
+    @post.published_at = Time.now
+    return render :template=>'post_controller/edit' unless @post.save
+    redirect resource(@post)
   end
   
 end

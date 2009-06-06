@@ -4,17 +4,21 @@ class Post
   property :id, Serial
   property :title, String, :not_null=>true
   property :text, Text
-  property :guid, String #This field is used to preserve the guid from old Wordpress posts new post should leave as nil
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
-  property :published_at, DateTime
+  property :guid, String, :lazy=>true #This field is used to preserve the guid from old Wordpress posts new post should leave as nil
   
+  property :published_at, DateTime
   property :updated_at, DateTime
   property :created_at, DateTime
   
   has n, :categories, :through=> Resource
   
   def self.published
-    all(:published_at.not=>nil, :published_at.lte=>Time.now, :order=>[:published_at.desc])
+    all(:published_at.not=>nil, :published_at.lte=>Time.now.iso8601, :order=>[:published_at.desc])
+  end
+  
+  def published?
+    published_at <= Time.now
   end
   
   def to_html
@@ -37,12 +41,11 @@ class Post
     remove = (old_set - new_set).map {|c| c.id}
     add = new_set - old_set
     
-    delta.each {|c| c.clear_count}
-    
     CategoryPost.all(:post_id=>id, :category_id=>remove).destroy!
     
     add.each {|c| categories << c}
     save
+    delta.each {|c| c.clear_count}
   end
    
 private

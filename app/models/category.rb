@@ -24,9 +24,10 @@ class Category
 private
   
   def set_count
-    self.attribute_set(:post_count, posts.published.count)
+    cnt = posts.published.count
+    self.attribute_set(:post_count, cnt)
     self.save
-    post_count
+    cnt
   end
   
 end
