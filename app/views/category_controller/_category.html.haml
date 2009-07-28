@@ -1,0 +1,13 @@
+%div[category]
+  .header
+    %h2= link_to(category.name, resource(category))
+    - unless category.posts.empty?
+      .posts
+        %h3 Assigned to:
+        - category.posts.each do |post|
+          %p= link_to(post.title,resource(post))
+  .content
+    .summary
+      = h(category.description)
+    %p.actions
+      =link_to("edit",resource(category,'edit'))
