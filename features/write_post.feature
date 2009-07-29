@@ -3,7 +3,7 @@ Feature: Writing A Post
   As an author
   I want to publish blog posts
   
-  @current
+  @passing
   Scenario: Publish a New Post
     Given I am a signed in author
     When I visit the new post page
@@ -13,20 +13,22 @@ Feature: Writing A Post
     And it should be on the home page
     And it should have a post page
     And it should allow comments
-    
+  
+  @passing
   Scenario: Save a Draft
     Given I am a signed in author
-    When go to the new posts page
+    When I visit the new post page
     And write a post
-    And click save
+    And click save draft
     Then that post should be saved
     And it should NOT be published
     And it should NOT appear on the home screen
-
+    
+  @current
   Scenario: Finish a Draft
     Given I am a signed in author
     And there is an unpublished post
-    When I visit the post managment page
+    When I go to the post managment page
     Then I should see that post in the list of drafts
     When I select that post
     Then I should see the post editing screen for it
@@ -37,7 +39,7 @@ Feature: Writing A Post
     
   Scenario: Publish Later
     Given I am a signed in author
-    When I visit the new posts page
+    When I visit the new post page
     And write a post
     And set the publication time to "publish at mid-night"
     And click publish

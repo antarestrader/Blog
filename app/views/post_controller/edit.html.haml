@@ -10,4 +10,10 @@
           - Category.all.each do |category|
             %li
               = check_box :name=>'post[category_ids][]', :checked=>(@post.categories.include? category), :label=>category.name, :value=>category.id, :id=>"caregory_ids_#{category.name.downcase.gsub(/\s/,'_')}"
-      %p= submit "Post"
+      %p
+        = submit "Post"
+        = submit "Save Draft" unless @post.published?
+      - unless  @post.published?
+        %p
+          = submit "Publish At"
+          = tag :input, :type=>'text', :value=>'tomorrow', :name=>'publication_time', :id=>'publication_time'

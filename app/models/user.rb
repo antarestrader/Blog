@@ -14,4 +14,8 @@ class User
   property :id,     Serial
   property :login,  String
   
+  def to_json_cookie
+    {:login=>@login}.to_json
+  end
+  
 end

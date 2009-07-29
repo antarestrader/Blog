@@ -48,7 +48,14 @@ class PostController < Application
     @post = Post.new
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
     @post.attributes= p
-    @post.published_at = Time.now
+    case params['submit']
+      when 'Post'
+        @post.published_at = Time.now
+      when 'Save Draft'
+        @post.published_at = nil
+      when 'Publish At'
+        @post.published_at = Cronic.parse(params['publication_time'])
+    end
     return render :template=>'post_controller/edit' unless @post.save
     redirect resource(@post)
   end

@@ -4,6 +4,7 @@ class Post
   property :id, Serial
   property :title, String, :not_null=>true
   property :text, Text
+  property :allow_comments, Boolean, :default=>true
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
   property :guid, String, :lazy=>true #This field is used to preserve the guid from old Wordpress posts new post should leave as nil
   
@@ -18,7 +19,7 @@ class Post
   end
   
   def published?
-    published_at <= Time.now
+    published_at && published_at <= Time.now
   end
   
   def to_html

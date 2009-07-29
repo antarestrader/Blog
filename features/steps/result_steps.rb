@@ -42,7 +42,6 @@ Then(/^#{noun} should be on the (.+) page$/) do |noun,page|
 end
 
 Then(/^#{noun} should have an? (.+) page$/) do |noun,page|
-  pending
   @it = get_noun(noun)
   ([@it].flatten).each do |it|
     visit resource(it)
