@@ -28,12 +28,12 @@ Then(/^I should not see #{noun}$/) do |noun|
   end
 end
 
-Then (/^#{noun} should have an? (.+) link$/) do |noun,link|
+Then (/^#{noun} should have an? (.+) link$/) do |noun,link|  
+  d =  Nokogiri::HTML(webrat_session.response.body.to_s)
   @it = get_noun(noun)
   ([@it].flatten).each do |it|
-    webrat_session.response.should have_selector("#{id_selector(it)} a")
+    (d.css("#{id_selector(it)} a").find {|node| node.inner_html =~ /#{link}/m}).should_not be_nil
   end
-  pending
 end
 
 Then(/^#{noun} should be on the (.+) page$/) do |noun,page|
@@ -46,4 +46,9 @@ Then(/^#{noun} should have an? (.+) page$/) do |noun,page|
   ([@it].flatten).each do |it|
     visit resource(it)
   end
+end
+
+Then(/^I should see the page for #{noun}$/) do |noun|
+  @it = get_noun(noun)
+  webrat_session.response.url.should =~ %r[#{resource(@it)}/?$]
 end

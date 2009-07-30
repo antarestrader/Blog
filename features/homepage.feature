@@ -10,7 +10,7 @@ Scenario: Seeing Public Posts
   When I visit the home page
   Then I should see those posts
 
-@pending
+@passing
 Scenario: Reading More of a Post
   Given there is a published post
   And I am a visitor

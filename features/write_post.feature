@@ -52,7 +52,7 @@ Feature: Writing A Post
     Then that post should be published
     And it should appear on the home screen
     
-  @current @passing
+  @passing
   Scenario: Edit a Published Post
     Given I am a signed in author
     And I have published a post
