@@ -12,10 +12,14 @@ Given(/^there is an? ((?:un)?published) post$?/) do |pub|
   @post = Factory.create(post)
 end
 
-When (/^write a post$/) do
+When (/^(?:I )?write a post$/) do
   @post = Factory.build(:post)
   fill_in 'title', :with=>@post.title
   fill_in 'text', :with=>@post.text
+end
+
+When (/^(?: I )?set the publication time to "(.*)"$/) do |time|
+  fill_in "publication_time", :with=>time
 end
 
 When (/^I change the text$/) do
@@ -29,6 +33,12 @@ When (/^click publish$/) do
   @post = Post.first(:title=>@post.title)
 end
 
+When (/^click publish at$/) do
+  click_button "Publish At"
+  webrat_session.response.should be_successful
+  @post = Post.first(:title=>@post.title)
+end
+
 When (/^click save draft$/) do
   click_button "Save Draft"
   @post = Post.first(:title=>@post.title)
@@ -38,6 +48,13 @@ Then(/^#{noun} should be published$/) do |noun|
   @it = get_noun(noun)
   ([@it].flatten).each do |it|
     it.should be_published
+  end
+end
+
+Then(/^#{noun} should be pending$/) do |noun|
+  @it = get_noun(noun)
+  ([@it].flatten).each do |it|
+    it.should be_pending
   end
 end
 

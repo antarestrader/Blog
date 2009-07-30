@@ -11,6 +11,7 @@ require "merb-core"
 require "spec"
 require "merb_cucumber/world/webrat"
 require "merb_cucumber/helpers/datamapper"
+require "timecop"
 require "factory_girl"
 require Merb.root/'spec'/'factories'/'factories.rb'
 

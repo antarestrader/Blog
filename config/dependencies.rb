@@ -39,3 +39,8 @@ dependency "chriseppstein-compass", ">=0.6.6",:require_as=>'compass'
 dependency "thoughtbot-factory_girl", ">=1.2.1",  :require_as=>'factory_girl'
 dependency "roman-merb_cucumber", ">=0.5.1",  :require_as=>'cucumber'
 dependency "rdiscount", ">=1.3.4"
+
+dependency "chronic", ">=0.2.3"
+
+
+

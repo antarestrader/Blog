@@ -1,4 +1,5 @@
 %h2 Admin Page
+%h3=link_to("New Post", '/posts/new')
 %h3 drafts
 %ul#drafts
   - Post.drafts.each do |draft|

@@ -36,19 +36,21 @@ Feature: Writing A Post
     And click publish
     Then that post should be published
     And it should appear on the home screen
-    
+  
+  @passing
   Scenario: Publish Later
     Given I am a signed in author
+    And time is frozen
     When I visit the new post page
     And write a post
-    And set the publication time to "publish at mid-night"
-    And click publish
+    And set the publication time to "midnight"
+    And click publish at
     Then that post should be pending
     And it should NOT be published
     And it should NOT appear on the home screen
-    When it is after mid-night
+    When the time is now after midnight
     Then that post should be published
-    And it should be on the home screen
+    And it should appear on the home screen
     
   Scenario: Edit a Published Post
     Given I am a signed in author

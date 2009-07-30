@@ -55,7 +55,11 @@ class PostController < Application
     @post.attributes= p
     set_publication(@post,params)
     return render :template=>'post_controller/edit' unless @post.save
-    redirect resource(@post)
+    if @post.published?
+      redirect resource(@post)
+    else
+      redirect resource(@post, :edit)
+    end
   end
   
 private
@@ -67,7 +71,7 @@ private
       when 'Save Draft'
         post.published_at = nil
       when 'Publish At'
-        post.published_at = Cronic.parse(params['publication_time'])
+        post.published_at = Chronic.parse(params['publication_time'])
     end
   end
   

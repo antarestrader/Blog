@@ -22,8 +22,16 @@ class Post
     all(:published_at=>nil,:order=>[:updated_at.desc])
   end
   
+  def self.pending
+    all(:published_at.not=>nil, :published_at.gt=>Time.now.iso8601, :order=>[:published_at.asc])
+  end
+  
   def published?
     published_at && published_at <= Time.now
+  end
+  
+  def pending?
+    published_at && published_at > Time.now
   end
   
   def to_html
