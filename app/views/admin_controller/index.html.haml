@@ -1,1 +1,7 @@
-You're in index of the AdminController controller.
+%h2 Admin Page
+%h3 drafts
+%ul#drafts
+  - Post.drafts.each do |draft|
+    %li{:id=>"post_#{draft.id}"}
+      = draft.title
+      = link_to("edit", resource(draft,:edit))

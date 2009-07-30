@@ -18,6 +18,10 @@ class Post
     all(:published_at.not=>nil, :published_at.lte=>Time.now.iso8601, :order=>[:published_at.desc])
   end
   
+  def self.drafts
+    all(:published_at=>nil,:order=>[:updated_at.desc])
+  end
+  
   def published?
     published_at && published_at <= Time.now
   end

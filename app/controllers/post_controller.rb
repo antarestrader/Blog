@@ -21,20 +21,25 @@ class PostController < Application
   end
   
   def edit(id)
-    @post = Post.published.get id
+    @post = Post.get id
     @action = resource(@post)
     raise NotFound unless @post
     render
   end
   
   def update(id)
-    @post = Post.published.get id
+    @post = Post.get id
     raise NotFound unless @post
     p = params['post']
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
     @post.attributes= p
+    set_publication(@post,params)
     @post.save
-    redirect resource(@post)
+    if @post.published?
+      redirect resource(@post)
+    else
+      redirect resource(@post, :edit)
+    end
   end
   
   def new
@@ -48,16 +53,22 @@ class PostController < Application
     @post = Post.new
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
     @post.attributes= p
-    case params['submit']
-      when 'Post'
-        @post.published_at = Time.now
-      when 'Save Draft'
-        @post.published_at = nil
-      when 'Publish At'
-        @post.published_at = Cronic.parse(params['publication_time'])
-    end
+    set_publication(@post,params)
     return render :template=>'post_controller/edit' unless @post.save
     redirect resource(@post)
+  end
+  
+private
+  
+  def set_publication(post,params)
+    case params['submit']
+      when 'Post'
+        post.published_at = Time.now
+      when 'Save Draft'
+        post.published_at = nil
+      when 'Publish At'
+        post.published_at = Cronic.parse(params['publication_time'])
+    end
   end
   
 end
