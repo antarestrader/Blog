@@ -5,6 +5,11 @@ When(/^I go to "(.*)"$/) do |path|
   visit path
 end
 
+When (/^I visit #{noun}$/) do |noun|
+  @it = get_noun(noun)
+  visit resource(@it)
+end
+
 When(/^I visit the (.+) page$/) do |path|
   visit url(path.sub(/\s/,'_').to_sym)
   webrat_session.response.should be_successful
@@ -14,7 +19,7 @@ When /^I press "(.*)"$/ do |button|
   click_button(button)
 end
 
-When /^I click on the "(.+)" link$/ do |link|
+When(/^(?:I )?click (?:on )?the "(.+)" link$/) do |link|
   click_link(link)
 end
 

@@ -27,3 +27,7 @@ Merb.start_environment(:testing => true, :adapter => 'runner', :environment => E
 Before do
   Post.all.destroy!
 end
+
+After do
+  Timecop.return
+end

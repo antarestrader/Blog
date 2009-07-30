@@ -52,6 +52,7 @@ Feature: Writing A Post
     Then that post should be published
     And it should appear on the home screen
     
+  @current @passing
   Scenario: Edit a Published Post
     Given I am a signed in author
     And I have published a post
@@ -59,7 +60,7 @@ Feature: Writing A Post
     And click the "edit" link
     Then I should see the post editing screen for it
     When I change the text
-    And click update
+    And click publish
     Then that post should be published
     And the update time for it should be set
     

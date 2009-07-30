@@ -8,3 +8,4 @@
   .content
     .text
       ~ @post.to_html
+    %p.admin=link_to("edit",resource(@post,:edit))

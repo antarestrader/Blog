@@ -12,6 +12,13 @@ Given(/^there is an? ((?:un)?published) post$?/) do |pub|
   @post = Factory.create(post)
 end
 
+Given (/^#{noun} (?:has|have) published a post$/) do |author|
+  @author = get_noun(author)
+  Timecop.freeze(Chronic.parse("yesterday")) do
+    @post = Factory.create(:published_post)  #TODO , :author=>@author)
+  end
+end
+
 When (/^(?:I )?write a post$/) do
   @post = Factory.build(:post)
   fill_in 'title', :with=>@post.title
@@ -81,21 +88,26 @@ Then(/^#{noun} should NOT appear on the home screen$/) do |noun|
   end
 end
 
-Then (/^#{noun} should allow comments$/) do |noun|
+Then(/^#{noun} should allow comments$/) do |noun|
   @it = get_noun(noun)
   ([@it].flatten).each do |it|
     it.allow_comments.should be_true
   end
 end
 
-Then (/^#{noun} should be saved$/) do |noun|
+Then(/^#{noun} should be saved$/) do |noun|
   @it = get_noun(noun)
   ([@it].flatten).each do |it|
     it.should_not be_a_new_record
   end
 end
 
-Then (/^I should see the post editing screen for #{noun}$/) do |noun|
+Then(/^I should see the post editing screen for #{noun}$/) do |noun|
   @it = get_noun(noun)
   webrat_session.response.url.should =~ %r[#{resource(@it,:edit)}/?$]
+end
+
+Then(/^the update time for #{noun} should be set$/) do |noun|
+  @it = get_noun(noun)
+  @it.updated_at.asctime.should == Time.now.asctime #timecop?
 end
