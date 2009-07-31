@@ -7,6 +7,8 @@ if (local_gem_dir = File.join(File.dirname(__FILE__), '..', 'gems')) && $BUNDLE.
   $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
 end
 
+gem "merb-core", "1.0.11"
+
 require "merb-core"
 require "spec"
 require "merb_cucumber/world/webrat"
