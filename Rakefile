@@ -1,4 +1,9 @@
 require 'rubygems'
+
+if (local_gem_dir = File.join(File.dirname(__FILE__), '..', 'gems')) && $BUNDLE.nil?
+  $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
+end
+
 require 'rake/rdoctask'
 
 require 'merb-core'
@@ -27,7 +32,9 @@ end
 require 'spec/rake/spectask'
 require 'merb-core/test/tasks/spectasks'
 desc 'Default: run spec examples'
-task :default => 'spec'
+task :default  do
+  exec 'spec -c -f specdoc spec/'
+end
 
 ##############################################################################
 # ADD YOUR CUSTOM TASKS IN /lib/tasks
