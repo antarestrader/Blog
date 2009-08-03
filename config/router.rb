@@ -9,6 +9,9 @@ Merb::Router.prepare do
   end
   match('/',:query_string=>/p=\d+/).to(:controller => 'post_controller', :action =>'show', :id=>'[1]')
   
+  #atom & rss feeds
+  match('/feed/:action(.xml)').to(:controller=> 'feed_controller').name(:feeds)
+  
   # Adds the required routes for merb-auth using the password slice
   slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
   

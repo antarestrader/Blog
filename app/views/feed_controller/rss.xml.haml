@@ -1,0 +1,27 @@
+!!! xml
+%rss{:version=>"2.0"}
+  %channel
+    %title Antares Trader Blog Posts
+    %link= absolute_url(:home)
+    %description 
+      A blog about Ruby and the development of Antares Trader, an online space trading game
+    %language en-us
+    %copyright Copyright 2007-#{Time.now.year} John F. Miller.
+    %pubDate= Time.now
+    %managingEditor emperor@antarestrader.com
+    %webMaster emperor@antarestrader.com
+    %generator Blog -- Ruby blogging software by John F. Miller.  http://github.com/startrader/Blog
+    %ttl 240
+    - @posts.each do |post|
+      %element
+        %title= post.title
+        %link= absolute_url(:post,:id=>post.id)
+        %description
+          %div{:xmlns=>'http://www.w3.org/1999/xhtml'}
+            = post.summary
+        %author emperor@antarestrader.com
+        %guid{:isPermaLink=>"false"}= post.guid
+        %pubDate = post.published_at
+        
+        
+        
