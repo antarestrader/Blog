@@ -6,7 +6,7 @@ class Post
   property :text, Text
   property :allow_comments, Boolean, :default=>true
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
-  property :guid, String, :lazy=>true #This field is used to preserve the guid from old Wordpress posts new post should leave as nil
+  property :guid, String, :lazy=>true
   
   property :published_at, DateTime
   property :updated_at, DateTime
@@ -40,6 +40,14 @@ class Post
   
   def summary
     format_text(divided_text[0], format)
+  end
+  
+  def guid
+    uid = attribute_get(:guid)
+    return uid unless uid.nil?
+    uid = "tag:blog.antarestrader.com:2009:/post/#{@id}"
+    update_attributes :guid=>uid
+    uid
   end
   
   #returns true if there is summary
