@@ -27,11 +27,11 @@ class Post
   end
   
   def published?
-    published_at && published_at <= Time.now
+    published_at && published_at.to_time <= Time.now
   end
   
   def pending?
-    published_at && published_at > Time.now
+    published_at && published_at.to_time > Time.now
   end
   
   def to_html
