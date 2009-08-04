@@ -54,7 +54,7 @@ class PostController < Application
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
     @post.attributes= p
     set_publication(@post,params)
-    return render :template=>'post_controller/edit' unless @post.save
+    return render(:template=>'post_controller/edit') unless @post.save
     if @post.published?
       redirect resource(@post)
     else
