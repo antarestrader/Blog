@@ -1,3 +1,9 @@
+if ENV['MERB_ENV'] == 'production'
+  puts "I will not destroy all you production data!"
+  puts "switching to 'test' mode"
+  ENV['MERB_ENV'] = 'test'
+end
+
 # Sets up the Merb environment for Cucumber (thanks to krzys and roman)
 require "rubygems"
 
