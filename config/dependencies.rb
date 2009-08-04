@@ -22,7 +22,8 @@ dependency "merb-param-protection", merb_gems_version
 dependency "merb-exceptions", merb_gems_version
 
 dependency "data_objects", do_gems_version
-dependency "do_sqlite3", do_gems_version # If using another database, replace this
+dependency "do_sqlite3", do_gems_version 
+dependency "do_mysql", do_gems_version 
 dependency "dm-core", dm_gems_version         
 dependency "dm-aggregates", dm_gems_version   
 dependency "dm-migrations", dm_gems_version   
@@ -40,7 +41,10 @@ dependency "thoughtbot-factory_girl", ">=1.2.1",  :require_as=>'factory_girl'
 dependency "roman-merb_cucumber", ">=0.5.1",  :require_as=>'cucumber'
 dependency "rdiscount", ">=1.3.4"
 
-dependency "chronic", ">=0.2.3"
+dependency "webrat", ">=0.4.4"
+dependency "cucumber", ">=0.3.92"
 
+dependency "chronic", ">=0.2.3"
+dependency "timecop", ">=0.2.1"
 
 
