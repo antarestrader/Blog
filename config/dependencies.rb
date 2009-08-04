@@ -37,14 +37,15 @@ dependency "merb_datamapper", merb_gems_version
 dependency "merb-haml", merb_gems_version
 dependency "chriseppstein-compass", ">=0.6.6",:require_as=>'compass'
 
-dependency "thoughtbot-factory_girl", ">=1.2.1",  :require_as=>'factory_girl'
-dependency "roman-merb_cucumber", ">=0.5.1",  :require_as=>'cucumber'
+dependency "thoughtbot-factory_girl", ">=1.2.1", :require_as => nil #:require_as=>'factory_girl'
+dependency "roman-merb_cucumber", ">=0.5.1", :require_as => nil #:require_as=>'cucumber'
 dependency "rdiscount", ">=1.3.4"
 
-dependency "webrat", ">=0.4.4"
-dependency "cucumber", ">=0.3.92"
+dependency "webrat", ">=0.4.4", :require_as => nil
+dependency "cucumber", ">=0.3.92", :require_as => nil
 
 dependency "chronic", ">=0.2.3"
-dependency "timecop", ">=0.2.1"
+dependency "timecop", ">=0.2.1", :require_as => nil
+
 
 
