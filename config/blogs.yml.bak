@@ -1,0 +1,9 @@
+---
+example.com:
+  :database: :default
+  :template_root: /absolute/path/to/templates
+  :name: blog
+extra.example.com:
+  :database: :extra
+  :template_root: /absolute/path/to/extra/templates
+  :name: Second Blog
