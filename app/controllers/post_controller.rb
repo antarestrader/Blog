@@ -19,7 +19,8 @@ class PostController < Application
   
   def show(id)
     id ||=params["p"]
-    @post = Post.published.get id
+    accessable_posts = session.authenticated? ? Post.all : Post.published
+    @post = accessable_posts.get id
     raise NotFound unless @post
     render
   end
