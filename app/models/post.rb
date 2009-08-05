@@ -15,7 +15,7 @@ class Post
   has n, :categories, :through=> Resource
   
   def self.published
-    all(:published_at.not=>nil, :published_at.lte=>Time.now.iso8601, :order=>[:published_at.desc])
+    all(:published_at.not=>nil, :published_at.lte=>Time.now.utc.iso8601, :order=>[:published_at.desc])
   end
   
   def self.drafts
@@ -23,15 +23,15 @@ class Post
   end
   
   def self.pending
-    all(:published_at.not=>nil, :published_at.gt=>Time.now.iso8601, :order=>[:published_at.asc])
+    all(:published_at.not=>nil, :published_at.gt=>Time.now.utc.iso8601, :order=>[:published_at.asc])
   end
   
   def published?
-    published_at && published_at.to_time <= Time.now
+    published_at && published_at.to_time <= Time.now.utc
   end
   
   def pending?
-    published_at && published_at.to_time > Time.now
+    published_at && published_at.to_time > Time.now.utc
   end
   
   def to_html

@@ -41,10 +41,11 @@ dependency "thoughtbot-factory_girl", ">=1.2.1", :require_as => nil #:require_as
 dependency "roman-merb_cucumber", ">=0.5.1", :require_as => nil #:require_as=>'cucumber'
 dependency "rdiscount", ">=1.3.4"
 
-dependency "webrat", ">=0.4.4", :require_as => nil
+dependency "webrat",   ">=0.4.4", :require_as => nil
 dependency "cucumber", ">=0.3.92", :require_as => nil
 
 dependency "chronic", ">=0.2.3"
+dependency "tzinfo",  ">=0.3.13"
 dependency "timecop", ">=0.2.1", :require_as => nil
 
 

@@ -7,7 +7,11 @@ class PostController < Application
     page = (params["page"] || 1).to_i
     offset = (page - 1)*cnt
     @posts = Post.published.first(cnt,:offset=>offset)
-    raise NotFound if @posts.empty?
+     
+    if @posts.empty?
+      return render "<h2>There are not yet any posts</h2>" if Post.published.count == 0
+      raise NotFound
+    end
     @more = page + 1 if (Post.published.count > cnt*page)
     @less = page - 1 unless 1 == page
     render
@@ -67,11 +71,11 @@ private
   def set_publication(post,params)
     case params['submit']
       when 'Post'
-        post.published_at = Time.now
+        post.published_at = Time.now.utc
       when 'Save Draft'
         post.published_at = nil
       when 'Publish At'
-        post.published_at = Chronic.parse(params['publication_time'])
+        post.published_at = Chronic.parse(params['publication_time']).utc
     end
   end
   

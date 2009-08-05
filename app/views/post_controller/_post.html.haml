@@ -2,10 +2,11 @@
   .header
     %h2= link_to(post.title, resource(post))
     - if post.published_at
-      .date
-        %p.day= post.published_at.strftime("%A")
-        %p.date= post.published_at.strftime("%b %d, %Y")
-        %p.time= post.published_at.strftime("%l:%M %P")
+      .date{:value=>post.published_at.to_time.xmlschema}
+        - t= local_time(post.published_at)
+        %p.day= t.strftime("%A")
+        %p.date= t.strftime("%b %d, %Y")
+        %p.time= t.strftime("%l:%M %P #{time_zone}")
     - unless post.categories.empty?
       .categories
         %h3 Filed Under:
@@ -17,4 +18,4 @@
     %p.actions
       - if post.extended
         =link_to("read more",resource(post))
-      =link_to("edit",resource(post,'edit'))
+      %span.admin=link_to("edit",resource(post,'edit'))
