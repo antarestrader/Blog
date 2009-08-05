@@ -20,7 +20,7 @@ Merb::Config.use do |c|
 end
  
 Merb::BootLoader.before_app_loads do
-  Merb::Config[:domains] = YAML.load_file(Merb.root/ 'config' / 'blogs.yml')
+  Merb::Config[:domains] = YAML.load_file(Merb.root/ 'config' / 'blogs.yml') if Merb::Config[:multidomain]
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
 end
  

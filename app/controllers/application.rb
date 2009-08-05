@@ -4,14 +4,16 @@ class Application < Merb::Controller
     @categories = Category.all
   end
   
-  before do
-    p d = params[:domains] = request.domain
-    raise NotFound, "No Known Domain: #{d}" unless Merb::Config[:domains].has_key?(d)
-    @domain = Merb::Config[:domains][d]
+  if Merb.config[:multidomain]
+    before do
+      d = params[:domains] = request.domain
+      raise NotFound, "No Known Domain: #{d}" unless Merb::Config[:domains].has_key?(d)
+      @domain = Merb::Config[:domains][d]
+    end
+    
+    before :set_template_roots
+    after :restore_template_roots
   end
-  
-  before :set_template_roots
-  after :restore_template_roots
   
   def set_template_roots
     @_old_template_roots = self.class._template_roots
