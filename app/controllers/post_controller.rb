@@ -9,7 +9,7 @@ class PostController < Application
     @posts = Post.published.first(cnt,:offset=>offset)
      
     if @posts.empty?
-      return render "<h2>There are not yet any posts</h2>" if Post.published.count == 0
+      return render("<h2>There are not yet any posts</h2>") if Post.published.count == 0
       raise NotFound
     end
     @more = page + 1 if (Post.published.count > cnt*page)
