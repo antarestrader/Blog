@@ -11,6 +11,7 @@ Merb::Router.prepare do
   
   #atom & rss feeds
   match('/feed/:action(.xml)').to(:controller=> 'feed_controller').name(:feeds)
+  match('/',:query_string=>/feed=rss2/).to(:controller => 'feed_controller', :action =>'rss') #old wordpress format
   
   # Adds the required routes for merb-auth using the password slice
   slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
