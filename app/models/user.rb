@@ -11,11 +11,16 @@
 class User
   include DataMapper::Resource
   
+  def self.default_repository_name
+    :user
+  end
+
+  
   property :id,     Serial
   property :login,  String
   
   def to_json_cookie
-    {:login=>@login}.to_json
+    {:login=>@login,:admin=>"admin"}.to_json #all users are admins at the moment
   end
   
 end

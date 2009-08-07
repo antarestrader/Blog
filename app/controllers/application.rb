@@ -1,9 +1,5 @@
 class Application < Merb::Controller
-  #???
-  before do
-    @categories = Category.all
-  end
-  
+
   if Merb.config[:multidomain]
     before do
       d = params[:domains] = request.domain
@@ -13,6 +9,11 @@ class Application < Merb::Controller
     
     before :set_domain
     after :restore_domain
+  end
+  
+  #used in sidebar
+  before do
+    @categories = Category.all
   end
   
   def set_domain

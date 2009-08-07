@@ -17,6 +17,4 @@
 %p= link_to('Ubuntu', url(:home))
 %h2 Statistics
 %p #{Post.published.count} : Number of posts
-%h2 Administration
-%p= link_to('Sign In', url(:login))
-%p= link_to('Admin Home', url(:admin))
+= partial('partials/admin')
