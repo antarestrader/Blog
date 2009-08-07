@@ -22,3 +22,4 @@ gems/specifications/*
 merb_profile_results
 public/stylesheets/*.css
 config/database.yml
+config/blogs.yml

@@ -5,6 +5,10 @@ end
 
 # comment this out if you are running merb behind a load balancer
 # that serves static files
+
+require 'multistatic'
+
+use Merb::Rack::MultiStatic, Merb.config[:domains] if Merb::Config[:multidomain]
 use Merb::Rack::Static, Merb.dir_for(:public)
 
 # this is our main merb application
