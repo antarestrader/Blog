@@ -2,7 +2,7 @@ class Application < Merb::Controller
 
   if Merb.config[:multidomain]
     before do
-      d = params[:domains] = request.domain
+      d = params[:domains] = request.domain(5)
       raise NotFound, "No Known Domain: #{d}" unless Merb::Config[:domains].has_key?(d)
       @domain = Merb::Config[:domains][d]
     end
