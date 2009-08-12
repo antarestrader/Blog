@@ -1,6 +1,7 @@
 require 'rubygems'
 
 if (local_gem_dir = File.join(File.dirname(__FILE__), 'gems')) && $BUNDLE.nil?
+  puts "changing gem directory to '#{local_gem_dir}'"
   $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
 end
 
@@ -21,7 +22,7 @@ include FileUtils
 
 # Load the basic runtime dependencies;
 init_env = ENV['MERB_ENV'] || 'development'
-#Merb.load_dependencies(:environment => init_env)
+Merb.load_dependencies(:environment => init_env)
 Merb.start_environment(:environment => init_env, :adapter => 'runner')
 
 DataMapper::Repository.context << DataMapper::repository(datasource.to_sym)
