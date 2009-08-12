@@ -8,6 +8,7 @@ end
 require 'nokogiri'
 require 'merb-core'
 require 'htmlentities'
+require 'dm-core'
 
 datasource = ARGV.pop
 
