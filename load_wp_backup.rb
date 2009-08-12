@@ -1,7 +1,14 @@
 require 'rubygems'
+
+if (local_gem_dir = File.join(File.dirname(__FILE__), 'gems')) && $BUNDLE.nil?
+  $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
+end
+
 require 'nokogiri'
 require 'merb-core'
 require 'htmlentities'
+
+datasource = ARGV.pop
 
 if ARGV.empty?
   puts "please supply one of more filenames on the commandline"
@@ -16,6 +23,8 @@ include FileUtils
 init_env = ENV['MERB_ENV'] || 'development'
 #Merb.load_dependencies(:environment => init_env)
 Merb.start_environment(:environment => init_env, :adapter => 'runner')
+
+DataMapper::Repository.context << DataMapper::repository(datasource.to_sym)
 
 def strip_cdata(t)
   t.gsub(%r{<!\[CDATA\[(.*)\]\]>}m,'\1')
