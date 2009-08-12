@@ -23,7 +23,7 @@ include FileUtils
 
 # Load the basic runtime dependencies;
 init_env = ENV['MERB_ENV'] || 'development'
-Merb.load_dependencies(:environment => init_env)
+#Merb.load_dependencies(:environment => init_env)
 Merb.start_environment(:environment => init_env, :adapter => 'runner')
 
 DataMapper::Repository.context << DataMapper::repository(datasource.to_sym)
