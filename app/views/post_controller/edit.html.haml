@@ -15,4 +15,4 @@
         = submit "Save Draft" unless @post.published?
         %p
           = submit "Publish At"
-          = tag :input, :type=>'text', :value=>@post.published_at.strftime("%b %d %Y %I:%M%p") || 'tomorrow', :name=>'publication_time', :id=>'publication_time'
+          = tag :input, :type=>'text', :value=>(@post.published? ? @post.published_at.strftime("%b %d %Y %I:%M%p") : 'tomorrow'), :name=>'publication_time', :id=>'publication_time'
