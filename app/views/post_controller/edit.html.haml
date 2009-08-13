@@ -11,9 +11,8 @@
             %li
               = check_box :name=>'post[category_ids][]', :checked=>(@post.categories.include? category), :label=>category.name, :value=>category.id, :id=>"caregory_ids_#{category.name.downcase.gsub(/\s/,'_')}"
       %p
-        = submit "Post"
+        = submit "Edit"
         = submit "Save Draft" unless @post.published?
-      - unless  @post.published?
         %p
           = submit "Publish At"
-          = tag :input, :type=>'text', :value=>'tomorrow', :name=>'publication_time', :id=>'publication_time'
+          = tag :input, :type=>'text', :value=>@post.published_at.strftime("%b %d %Y %I:%M%p") || 'tomorrow', :name=>'publication_time', :id=>'publication_time'

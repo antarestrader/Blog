@@ -73,6 +73,8 @@ private
     case params['submit']
       when 'Post'
         post.published_at = Time.now.utc
+      when 'Edit'
+        nil
       when 'Save Draft'
         post.published_at = nil
       when 'Publish At'
