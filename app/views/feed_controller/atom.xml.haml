@@ -7,7 +7,7 @@
   %author
     %name John F. Miller
     %email emperor@antarestrader.com
-  %id tag:blog.antarestrader.com:2009:/feeds/atom.xml/1
+  %id tag:blog.antarestrader.com,2009:/feeds/atom.xml/1
   %rights{:type=>"text"} Copyright 2007-#{Time.now.year} John F. Miller.
   -@posts.each do |post|
     %entry
@@ -16,7 +16,7 @@
       %updated= post.updated_at.to_time.xmlschema
       %published= post.published_at.to_time.xmlschema
       %link{:rel=>"alternate", :type=>"text/html", :href=>absolute_url(:post,:id=>post.id)}/
-      %content{:type=>'text/html', :scr=>absolute_url(:post,:id=>post.id)}
+      %content{:type=>'text/html', :src=>absolute_url(:post,:id=>post.id)}
       %summary{:type=>'xhtml'}
         %div{:xmlns=>'http://www.w3.org/1999/xhtml'}
           = post.summary
