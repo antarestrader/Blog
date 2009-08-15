@@ -62,7 +62,7 @@ class Post
     remove = (old_set - new_set).map {|c| c.id}
     add = new_set - old_set
     
-    CategoryPost.all(:post_id=>id, :category_id=>remove).destroy!
+    CategoryPost.all(:post_id=>id, :category_id=>remove).destroy! unless remove.empty?
     
     add.each {|c| categories << c}
     save

@@ -1,10 +1,5 @@
-class UniApplication < Merb::Controller
-
-  #used in sidebar
-  before do
-    @categories = Category.all
-  end
-  
+class Application < Merb::Controller
+    
   def self.set_repository(r)
     if DataMapper::Repository.adapters.has_key?(r)
       Merb.logger.debug { "  using database: #{r.inspect}" }
@@ -18,9 +13,6 @@ class UniApplication < Merb::Controller
     end
   end
   
-end
-
-class Application < UniApplication
   if Merb.config[:multidomain]
     Merb.logger.info { "Setting up dispatch for Multiple Domains" }
     Merb.logger.debug { "  domains: #{Merb::Config[:domains].inspect}" }
@@ -54,6 +46,11 @@ class Application < UniApplication
     Merb::Config[:reload_templates] = @_old_reload_templates
     Merb.logger.debug { "restoring template root: #{self.class._template_roots.inspect}" }
     ::Application.reset_repository(@domain[:database])
+  end
+  
+  
+  before do
+    @categories = Category.all
   end
 
 end
