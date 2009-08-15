@@ -13,12 +13,11 @@
     %generator Blog -- Ruby blogging software by John F. Miller.  http://github.com/startrader/Blog
     %ttl 240
     - @posts.each do |post|
-      %element
+      %item
         %title= post.title
         %link= absolute_url(:post,:id=>post.id)
         %description
-          %div{:xmlns=>'http://www.w3.org/1999/xhtml'}
-            = post.summary
+          = h post.summary
         %author emperor@antarestrader.com
         %guid{:isPermaLink=>"false"}= post.guid
         %pubDate = post.published_at
