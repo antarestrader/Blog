@@ -3,7 +3,7 @@ class Post
   
   property :id, Serial
   property :title, String, :not_null=>true
-  property :text, Text :not_null=>true
+  property :text, Text, :not_null=>true
   property :allow_comments, Boolean, :default=>true
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
   property :guid, String, :lazy=>true
