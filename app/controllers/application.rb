@@ -29,7 +29,7 @@ class Application < Merb::Controller
   end
   
   def set_domain
-    @_old_reload_templates, Merb::Config[:reload_templates] = Merb::Config[:reload_templates], false
+    @_old_reload_templates, Merb::Config[:reload_templates] = Merb::Config[:reload_templates], true
     @_old_template_roots = self.class._template_roots.dup
     Merb.logger.debug { "  template root was:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
     raise NotFound, "expected to find a path at #{@domain[:template_root]}." unless @domain[:template_root]

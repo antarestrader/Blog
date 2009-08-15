@@ -11,7 +11,7 @@
   %rights{:type=>"text"} Copyright 2007-#{Time.now.year} John F. Miller.
   -@posts.each do |post|
     %entry
-      %title= post.title
+      %title= h post.title
       %id= post.guid
       %updated= post.updated_at.to_time.xmlschema
       %published= post.published_at.to_time.xmlschema
