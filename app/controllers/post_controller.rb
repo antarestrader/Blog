@@ -39,11 +39,12 @@ class PostController < Application
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
     @post.attributes= p
     set_publication(@post,params)
-    @post.save
-    if @post.published?
+    if @post.save && @post.published?
       redirect resource(@post)
     else
-      redirect resource(@post, :edit)
+      @action = resource(@post) 
+      Merb.logger.info { "Error saving post: \"#{@post.errors.inspect}\"" } unless @post.errors.empty?
+      return render(:template=>'post_controller/edit')
     end
   end
   
@@ -59,7 +60,11 @@ class PostController < Application
     @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
     @post.attributes= p
     set_publication(@post,params)
-    return render(:template=>'post_controller/edit') unless @post.save
+    unless @post.save
+      @action = url(:posts) 
+      Merb.logger.info { "Error saving post: \"#{@post.errors.inspect}\"" }
+      return render(:template=>'post_controller/edit')
+    end
     if @post.published?
       redirect resource(@post)
     else

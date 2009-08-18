@@ -45,7 +45,7 @@ class Post
   def guid
     uid = attribute_get(:guid)
     return uid unless uid.nil?
-    uid = "tag:blog.antarestrader.com,2009:/post/#{attribute_get(:id)}"
+    uid = "tag:blog.antarestrader.com,2009:/#{DataMapper.repository.name.to_s}/post/#{attribute_get(:id)}"
     update_attributes :guid=>uid
     uid
   end
