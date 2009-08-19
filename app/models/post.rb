@@ -37,6 +37,7 @@ class Post
   def state
     return "Published" if published?
     return "Pending" if pending?
+    return "New Post" if new_record?
     return "Draft"
   end
   

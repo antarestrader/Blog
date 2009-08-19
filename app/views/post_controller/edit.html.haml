@@ -3,7 +3,7 @@
     %h1= @post.new_record? ? "New Post" : @post.title
     %p
       %strong= @post.state
-    %p= local_time(@post.published_at || @post.updated_at).strftime("%A <br/> %b %d, %Y<br/> %l:%M %P #{time_zone}")
+    %p= local_time(@post.published_at || @post.updated_at || Time.now.utc).strftime("%A <br/> %b %d, %Y<br/> %l:%M %P #{time_zone}")
   .content
     -unless @post.errors.empty?
       %p.errors 
