@@ -2,7 +2,7 @@
   .header
     %h2= link_to(post.title, resource(post))
     - if post.published_at
-      .date{:value=>post.published_at.to_time.xmlschema}
+      .date{:value=>post.published_at.to_time.strftime('%m %d, %Y %T %z')}
         - t= local_time(post.published_at)
         %p.day= t.strftime("%A")
         %p.date= t.strftime("%b %d, %Y")

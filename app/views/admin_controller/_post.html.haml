@@ -1,0 +1,7 @@
+%li{:id=>"post_#{post.id}"}
+  %h4= link_to(post.title || "[no title]", resource(post))
+  %p= post.text.slice(0,80) if post.text
+  %p= local_time(post.published_at || post.updated_at).strftime("%a %b %d, %Y %l:%M %P #{time_zone}")
+  %p
+    = link_to("edit", resource(post,:edit))
+    = link_to("delete", resource(post,:delete))

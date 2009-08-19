@@ -16,12 +16,5 @@
           = catch_content :for_layout
       #sidebar  
         = thrown_content?(:sidebar) ? catch_content(:sidebar) : partial('partials/sidebar')
-      #footer
-        %p Designed by John F. Miller, (C) 2009.  
-        %p
-          Based on the 
-          Wordpress #{link_to 'Mandigo theme','http://www.onehertz.com/portfolio/wordpress/'} by tom.
-        %p
-          This blog powered by Merb, Haml/Sass, Compass, MySQL, NginX, Mongrel, Ubuntu Linux and 
-          the RDiscount Markdown Library.
+      = partial('partials/footer')
     =partial('partials/admin_menu')

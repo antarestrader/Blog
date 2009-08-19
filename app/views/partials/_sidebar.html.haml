@@ -4,8 +4,9 @@
 %p= link_to('History of Antares Trader', url(:login))
 %p= link_to('Contact', url(:login))
 %h2 Categories
-- @categories.each do |category|
-  %p #{link_to(category.name, resource(category))} (#{category.post_count}): #{category.description}
+-if @categories && !@categories.empty?
+  - @categories.each do |category|
+    %p #{link_to(category.name, resource(category))} (#{category.post_count}): #{category.description}
 %h2 Links
 %p= link_to('The Ruby Language', 'http://ruby-lang.org')
 %p= link_to('Merb', url(:home))

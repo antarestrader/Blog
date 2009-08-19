@@ -34,6 +34,12 @@ class Post
     published_at && published_at.to_time > Time.now.utc
   end
   
+  def state
+    return "Published" if published?
+    return "Pending" if pending?
+    return "Draft"
+  end
+  
   def to_html
     format_text(text, format)
   end

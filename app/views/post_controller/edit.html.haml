@@ -1,6 +1,9 @@
 %div[@post]
   .header
     %h1= @post.new_record? ? "New Post" : @post.title
+    %p
+      %strong= @post.state
+    %p= local_time(@post.published_at || @post.updated_at).strftime("%A <br/> %b %d, %Y<br/> %l:%M %P #{time_zone}")
   .content
     -unless @post.errors.empty?
       %p.errors 
@@ -19,4 +22,4 @@
         = submit "Save Draft" unless @post.published?
       %p
         = submit "Publish At"
-        = tag :input, :type=>'text', :value=>(@post.published? ? @post.published_at.strftime("%b %d %Y %I:%M%p") : 'tomorrow'), :name=>'publication_time', :id=>'publication_time'
+        = tag :input, :type=>'text', :value=>(@post.published_at ? @post.published_at.strftime("%b %d %Y %I:%M%p") : 'tomorrow'), :name=>'publication_time', :id=>'publication_time'

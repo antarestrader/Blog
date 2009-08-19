@@ -12,8 +12,9 @@
           %p#tagline Write wht you want post when you wish
           #mainmenu= partial('partials/menu')
       #main
-        = catch_content :for_layout
-      #sidebar  
-        = thrown_content?(:sidebar) ? catch_content(:sidebar) : partial('partials/sidebar')
+        .post
+          = catch_content :for_layout
+      -# #sidebar  
+      -#   = thrown_content?(:sidebar) ? catch_content(:sidebar) : partial('partials/sidebar')
       = partial('partials/footer')
     =partial('partials/admin_menu')
