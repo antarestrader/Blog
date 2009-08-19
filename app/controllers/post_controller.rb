@@ -72,6 +72,21 @@ class PostController < Application
     end
   end
   
+  def delete(id)
+    @post = Post.get(id)
+    raise NotFound unless @post
+    render
+  end
+  
+  def destroy(id)
+    @post = Post.get(id)
+    raise NotFound unless @post
+    return redirect resource(@post) unless params[:submit] == "Delete"
+    Merb.logger.info { "Deleting post: #{@post.title || @post.id}" }
+    @post.destroy
+    redirect url(:admin)
+  end
+  
 private
   
   def set_publication(post,params)

@@ -9,4 +9,6 @@
   .content
     .text
       ~ @post.to_html
-    %p.admin=link_to("edit",resource(@post,:edit))
+    %p.admin
+      = link_to("edit",resource(@post,:edit))
+      = link_to("delete", resource(@post,:delete))

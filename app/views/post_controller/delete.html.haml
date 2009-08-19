@@ -1,0 +1,13 @@
+%div[@post]
+  %h1 Perminatly Delete this record?
+  .header
+    %h1= @post.title || '[No Title]'
+    %p
+      %strong= @post.state
+    %p= local_time(@post.published_at || @post.updated_at).strftime("%A <br/> %b %d, %Y<br/> %l:%M %P #{time_zone}")
+  .content
+    = form_for(@post, :action=>resource(@post), :method=>:delete) do
+      %p= @post.summary if @post.text
+      %p
+        = submit("Delete") 
+        = submit("Cancel")

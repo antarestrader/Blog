@@ -18,4 +18,6 @@
     %p.actions
       - if post.extended
         =link_to("read more",resource(post))
-      %span.admin=link_to("edit",resource(post,'edit'))
+      %span.admin
+        = link_to("edit",resource(post,'edit'))
+        = link_to("delete", resource(post,:delete))
