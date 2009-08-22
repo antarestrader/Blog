@@ -1,7 +1,8 @@
+
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
   # RESTful routes
-  resources :posts, :controller=>PostController
+  resources :posts, :controller=>PostController, :identify=>:index
   resources :categories, :controller=>CategoryController
   
   match('/admin').to(:controller=>AdminController) do

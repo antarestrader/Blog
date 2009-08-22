@@ -1,50 +1,54 @@
 class PostController < Application
   
   before :ensure_authenticated, :exclude => [:index, :show]
+  
+  before do
+    @posts_availible = Post.all(domain_finder)
+    @posts_availible = @posts_availible.published unless session.authenticated?
+  end
 
   def index
     cnt = 10
     page = (params["page"] || 1).to_i
     offset = (page - 1)*cnt
-    @posts = Post.published.first(cnt,:offset=>offset)
+    @posts = @posts_availible.published.first(cnt,:offset=>offset)
      
     if @posts.empty?
-      return render("<h2>There are not yet any posts</h2>") if Post.published.count == 0
+      return render("<h2>There are not yet any posts</h2>") if @posts_availible.published.count == 0
       raise NotFound
     end
-    @more = page + 1 if (Post.published.count > cnt*page)
+    @more = page + 1 if (@posts_availible.published.count > cnt*page)
     @less = page - 1 unless 1 == page
     render
   end
   
-  def show(id)
-    id ||=params["p"]
-    accessable_posts = session.authenticated? ? Post.all : Post.published
-    @post = accessable_posts.get id
-    raise NotFound unless @post
-    render
+  def show(index)
+    index ||= params["p"]
+    @post = @posts_availible.post_number index
+    raise NotFound, h([index,@posts_availible].inspect) unless @post
+    display @post
   end
   
-  def edit(id)
-    @post = Post.get id
+  def edit(index)
+    @post = @posts_availible.post_number index
+    raise NotFound unless @post
     @action = resource(@post)
-    raise NotFound unless @post
     render
   end
   
-  def update(id)
-    @post = Post.get id
+  def update(index)
+    @post = @posts_availible.post_number index
     raise NotFound unless @post
-    p = params['post']
-    @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
-    @post.attributes= p
+    @post.categories= get_categories
+    @post.attributes= params['post']
+    @post.domain= domain[:database]
     set_publication(@post,params)
-    if @post.save && @post.published?
+    if @post.save && (@post.published? || @post.pending?)
       redirect resource(@post)
     else
       @action = resource(@post) 
       Merb.logger.info { "Error saving post: \"#{@post.errors.inspect}\"" } unless @post.errors.empty?
-      return render(:template=>'post_controller/edit')
+      return render(:template=>'post_controller/edit') #need action to keep errors around
     end
   end
   
@@ -57,15 +61,16 @@ class PostController < Application
   def create
     p = params['post']
     @post = Post.new
-    @post.categories= (p.delete('category_ids') || []).map{|i| Category.get i}
-    @post.attributes= p
+    @post.categories= get_categories
+    @post.attributes= params['post']
+    @post.domain= domain[:database]
     set_publication(@post,params)
     unless @post.save
       @action = url(:posts) 
       Merb.logger.info { "Error saving post: \"#{@post.errors.inspect}\"" }
       return render(:template=>'post_controller/edit')
     end
-    if @post.published?
+    if @post.published? || @post.pending?
       redirect resource(@post)
     else
       redirect resource(@post, :edit)
@@ -73,16 +78,16 @@ class PostController < Application
   end
   
   def delete(id)
-    @post = Post.get(id)
+    @post = @posts_availible.index id
     raise NotFound unless @post
     render
   end
   
   def destroy(id)
-    @post = Post.get(id)
+    @post = @posts_availible.index id
     raise NotFound unless @post
-    return redirect resource(@post) unless params[:submit] == "Delete"
-    Merb.logger.info { "Deleting post: #{@post.title || @post.id}" }
+    return redirect resource(@post) unless params[:submit] == "Delete" #handle cancel button
+    Merb.logger.info { "Deleting post: #{@post.title || @post.index}" }
     @post.destroy
     redirect url(:admin)
   end
@@ -100,6 +105,11 @@ private
       when 'Publish At'
         post.published_at = Chronic.parse(params['publication_time']).utc
     end
+  end
+  
+  def get_categories
+    p = params['post']
+    (p.delete('category_ids') || []).map{|i| Category.get i}
   end
   
 end

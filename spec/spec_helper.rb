@@ -8,10 +8,12 @@ end
 
 require "merb-core"
 require "spec" # Satisfies Autotest and anyone else not using the Rake tasks
+require "factory_girl"
+require Merb.root/'spec'/'factories'/'factories.rb'
 
 # this loads all plugins required in your init file so don't add them
 # here again, Merb will do it for you
-Merb.start_environment(:testing => true, :adapter => 'runner', :environment => ENV['MERB_ENV'] || 'test')
+Merb.start_environment(:testing => true, :adapter => 'runner', :environment =>  'test')
 
 Spec::Runner.configure do |config|
   config.include(Merb::Test::ViewHelper)

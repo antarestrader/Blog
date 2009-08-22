@@ -31,7 +31,8 @@ require Merb.root/'spec'/'factories'/'factories.rb'
 def Spec.run? ; true; end
 
 Merb.start_environment(:testing => true, :adapter => 'runner', :environment => ENV['MERB_ENV'] || 'test')
-  
+DataMapper.auto_migrate! if Merb.orm == :datamapper
+
 Before do
   Post.all.destroy!
 end

@@ -10,12 +10,7 @@
 # You will need to setup your database and create a user.
 class User
   include DataMapper::Resource
-  
-  def self.default_repository_name
-    :user
-  end
-
-  
+    
   property :id,     Serial
   property :login,  String
   

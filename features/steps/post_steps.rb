@@ -40,6 +40,12 @@ When (/^click publish$/) do
   @post = Post.first(:title=>@post.title)
 end
 
+When (/^click edit$/) do
+  click_button "Edit"
+  webrat_session.response.should be_successful
+  @post = Post.first(:title=>@post.title)
+end
+
 When (/^click publish at$/) do
   click_button "Publish At"
   webrat_session.response.should be_successful

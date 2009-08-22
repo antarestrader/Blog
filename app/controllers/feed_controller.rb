@@ -1,13 +1,17 @@
 class FeedController < Application
   only_provides :xml
   
+  before do
+    @posts_availible = Post.all(domain_finder)
+  end
+  
   def rss
-    @posts = Post.published.all(:limit=>25)
+    @posts = @posts_availible.published.all(:limit=>25)
     render
   end
   
   def atom
-    @posts = Post.published.all(:limit=>25)
+    @posts = @posts_availible.published.all(:limit=>25)
     render
   end
   

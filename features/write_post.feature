@@ -60,7 +60,7 @@ Feature: Writing A Post
     And click the "edit" link
     Then I should see the post editing screen for it
     When I change the text
-    And click publish
+    And click edit
     Then that post should be published
     And the update time for it should be set
     

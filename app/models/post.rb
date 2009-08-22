@@ -2,29 +2,46 @@ class Post
   include DataMapper::Resource
   
   property :id, Serial
-  property :title, String, :not_null=>true
-  property :text, Text, :not_null=>true
+  property :title, String, :length=>250, :nullable => false
+  property :text, Text, :nullable => false
   property :allow_comments, Boolean, :default=>true
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
   property :guid, String, :lazy=>true
+  property :domain, String, :index=>true
+  property :index, Integer, :index=>true
   
   property :published_at, DateTime
   property :updated_at, DateTime
   property :created_at, DateTime
   
   has n, :categories, :through=> Resource
+  has n, :comments
   
-  def self.published
-    all(:published_at.not=>nil, :published_at.lte=>Time.now.utc.iso8601, :order=>[:published_at.desc])
+  #set index
+  before :create do
+    attribute_set(:index, 1 + (Post.max(:index,:domain=>self.domain) || 0)) unless self.index
   end
   
-  def self.drafts
-    all(:published_at=>nil,:order=>[:updated_at.desc])
+  class << self
+    
+    def published
+      all(:published_at.not=>nil, :published_at.lte=>Time.now.utc.iso8601, :order=>[:published_at.desc])
+    end
+    
+    def drafts
+      all(:published_at=>nil,:order=>[:updated_at.desc])
+    end
+    
+    def pending
+      all(:published_at.not=>nil, :published_at.gt=>Time.now.utc.iso8601, :order=>[:published_at.asc])
+    end
+    
+    def post_number(i)
+      first(:index=>Integer(i))
+    end
   end
   
-  def self.pending
-    all(:published_at.not=>nil, :published_at.gt=>Time.now.utc.iso8601, :order=>[:published_at.asc])
-  end
+  
   
   def published?
     published_at && published_at.to_time <= Time.now.utc
@@ -52,7 +69,7 @@ class Post
   def guid
     uid = attribute_get(:guid)
     return uid unless uid.nil?
-    uid = "tag:blog.antarestrader.com,2009:/#{DataMapper.repository.name.to_s}/post/#{attribute_get(:id)}"
+    uid = "tag:blog.antarestrader.com,2009:/post_id/#{attribute_get(:id)}"
     update_attributes :guid=>uid
     uid
   end

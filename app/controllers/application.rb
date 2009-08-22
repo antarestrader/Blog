@@ -26,31 +26,53 @@ class Application < Merb::Controller
     
     before :set_domain
     after :restore_domain
+    
   end
   
+  #Set up this call for the spesified domain 
+  #Note Logging calls are indented for easier reading
   def set_domain
+    #Save previous root
     @_old_reload_templates, Merb::Config[:reload_templates] = Merb::Config[:reload_templates], true
     @_old_template_roots = self.class._template_roots.dup
-    Merb.logger.debug { "  template root was:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
-    raise NotFound, "expected to find a path at #{@domain[:template_root]}." unless @domain[:template_root]
-    Merb.logger.info { "Dispatching for domain: #{@domain[:name]} (#{@domain[:template_root]})" }
-   
+      Merb.logger.debug { "  template root was:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
+    
+    #ensure new rout exists
+    unless @domain[:template_root]
+      raise NotFound, 
+            "expected to find a path at #{@domain[:template_root]}.\n\
+            Please check the formatting of you blogs.yml file." 
+    end
+      Merb.logger.info { "Dispatching for domain: #{@domain[:name]} (#{@domain[:template_root]})" }
+    
+    #push our Route onto the stack
     self.class._template_roots << [@domain[:template_root],:_template_location]
-    Merb.logger.debug { "  template root now:\n  #{self.class._template_roots.map{|i| i[0]}.join("\n  ")}" }
-    Merb.logger.debug { "  old template template root is:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
-    ::Application.set_repository(@domain[:database])
+      Merb.logger.debug { "  template root now:\n  #{self.class._template_roots.map{|i| i[0]}.join("\n  ")}" }
+      Merb.logger.debug { "  old template template root is:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
+      
   end
   
   def restore_domain
     self.class._template_roots = @_old_template_roots
     Merb::Config[:reload_templates] = @_old_reload_templates
-    Merb.logger.debug { "restoring template root: #{self.class._template_roots.inspect}" }
-    ::Application.reset_repository(@domain[:database])
+      Merb.logger.debug { "restoring template root: #{self.class._template_roots.inspect}" }
+
   end
   
+  def domain
+    @domain ||= Hash.new("").freeze
+  end
+    
+  def domain_finder
+    if Merb.config[:multidomain]
+      {:domain=>domain[:database]}
+    else
+      {}
+    end
+  end
   
   before do
-    @categories = Category.all
+    @categories = Category.all(domain_finder)
   end
 
 end

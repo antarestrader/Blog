@@ -3,8 +3,9 @@ class Category
   
   property :id, Serial
   property :name, String, :unique_index=>true
-  property :description, String,:length=>250
+  property :description, String,:length=>255
   property :post_count, Integer, :writer => :private
+  property :domain, String, :index=>true
   
   has n, :posts, :through => Resource
   

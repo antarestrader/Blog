@@ -1,11 +1,15 @@
 ---
 example.com: #use this with webrat
-  :database: :default
+  #used in the database field
+  :database: default
   :template_root: /absolute/path/to/templates
   :root: /path/to/public/directory
-  :name: blog
+  #used at various place to name the blog
+  :name: First Blog
+  #desribes the blog
+  :description: A blog about Ruby, web development, and the Game
 extra.example.com:
-  :database: :extra
+  :database: extra
   :template_root: /absolute/path/to/extra/templates
   :root: /path/to/public/directory
   :name: Second Blog

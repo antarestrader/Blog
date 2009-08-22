@@ -2,9 +2,13 @@ class AdminController < Application
   
   before :ensure_authenticated
   
+  before do
+    @posts_availible = Post.all(domain_finder)
+  end
+
   def index
-    @drafts = Post.drafts
-    @pending = Post.pending
+    @drafts = @posts_availible.drafts
+    @pending = @posts_availible.pending
     render
   end
   
