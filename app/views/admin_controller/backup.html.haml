@@ -1,0 +1,9 @@
+%h1 Backup/Restore
+%p= link_to("Backup all posts", url(:backup,:format=>:xml))
+%p
+  %form{:action=>url(:backup), :enctype=>"multipart/form-data", :method=>"post"}
+    %p 
+      Upload backup file:
+      %input{:name=>'file', :size=>"40", :type=>"file"}
+    %p
+      %input{:type=>"submit", :value=>"Upload"}

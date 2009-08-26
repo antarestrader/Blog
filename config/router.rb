@@ -6,6 +6,8 @@ Merb::Router.prepare do
   
   match('/admin').to(:controller=>AdminController) do
     match('/').to(:action=>'index').name(:admin)
+    match('/backup(.:format)',:method=>:get).to(:action=>'backup').name(:backup)
+    match('/backup(.:format)',:method=>:post).to(:action=>'restore').name(:backup)
   end
   match('/',:query_string=>/p=\d+/).to(:controller => 'post_controller', :action =>'show', :id=>'[1]')
   
