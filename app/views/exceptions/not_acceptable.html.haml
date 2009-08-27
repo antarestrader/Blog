@@ -1,0 +1,23 @@
+%h1 406 Not Acceptable
+.header
+  %h2= request.exceptions.first.message
+.content
+  %p 
+    This occurs because the request you sent does not match
+    process that is currently supported.  The most likely 
+    cause it following a ling to a WordPress page that did 
+    not make the transition to this new blog.
+  
+  %p 
+    If your URL looks like <tt>http:\\somewhere.com\?tag=ruby</tt>
+    then this is almost certianly the case.
+  
+  %p
+    You may also see this message if your user-agent did not 
+    support asked for an unsupported file type.  This is rare.
+  
+  %p 
+    In summary we didn't understand what you wanted from us.
+  
+  %p 
+    Sorry about that!
