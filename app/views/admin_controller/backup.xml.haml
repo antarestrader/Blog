@@ -2,7 +2,7 @@
 !!! xml
 %backup{:date=>Time.now.utc.to_s, :domain=>params[:domain]}
   %categories
-    - @categories.each do |catagory|
+    - @categories.each do |category|
       %category
         %name= category.name
         %description= category.description
