@@ -10,7 +10,7 @@
     -@posts.each do |post|
       %entry
         %index= post.id
-        %title= post.title
+        %title= h post.title
         %text
           %pre~ h post.text
         %giud= post.guid
