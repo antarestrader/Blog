@@ -15,8 +15,8 @@ Merb::Router.prepare do
   match('/feed/:action(.xml)').to(:controller=> 'feed_controller').name(:feeds)
   match('/',:query_string=>/feed=rss2/).to(:controller => 'feed_controller', :action =>'rss') #old wordpress format
   
-  match('/',:query_string=>/.+/).defer_to do |request, params|
-    raise Merb::ControllerExceptions::NotAcceptable, "Query String Unknown: #{request.query_string}"
+  match('/',:query_string=>/(tag|cat)=/).defer_to do |request, params|
+    raise Merb::ControllerExceptions::NotAcceptable, "Query String Unknown: #{request.query_string[0,20]}"
   end
   
   # Adds the required routes for merb-auth using the password slice
