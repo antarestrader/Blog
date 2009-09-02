@@ -1,0 +1,22 @@
+%h1 Restore Domain: #{@restore.domain}
+%p 
+  This will wipe out #{Post.all(:domain=>@restore.domain).count} posts and 
+  replace them with the following:
+%form{:action=>url(:backup), :enctype=>"multipart/form-data", :method=>"post"}
+  %p
+    = submit("Restore") 
+    = submit("Cancel")
+  %h2 #{@restore.posts.count} Posts:
+  %ul
+    - @restore.title_set[-10,10].each do |title|
+      %li= h title
+    -if (@restore.posts.count > 10)
+      %li ... [#{@restore.posts.count - 10} more]
+
+  %h2 #{@restore.categories.count} Categories
+  %p
+    = hidden_field(:name => "restore_file", :value => @filename)
+    = hidden_field(:name => "restore_domain", :value => @restore.domain)
+    = submit("Restore") 
+    = submit("Cancel")
+  

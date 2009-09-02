@@ -36,6 +36,7 @@ dependency "merb_datamapper", merb_gems_version
 
 dependency "merb-haml", merb_gems_version
 dependency "chriseppstein-compass", ">=0.6.6",:require_as=>'compass'
+dependency "nokogiri", "1.3.3"
 
 dependency "thoughtbot-factory_girl", ">=1.2.1", :require_as => nil #:require_as=>'factory_girl'
 dependency "roman-merb_cucumber", ">=0.5.1", :require_as => nil #:require_as=>'cucumber'

@@ -3,7 +3,10 @@
 %p
   %form{:action=>url(:backup), :enctype=>"multipart/form-data", :method=>"post"}
     %p 
+      Domains:
+      = select(:restore_domain, :prompt=>'Use File Default', :selected=>'', :collection=>Merb::Config[:domains].keys)
+    %p 
       Upload backup file:
       %input{:name=>'file', :size=>"40", :type=>"file"}
     %p
-      %input{:type=>"submit", :value=>"Upload"}
+      = submit("Upload")
