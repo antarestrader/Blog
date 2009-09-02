@@ -12,15 +12,16 @@ class Restore
   end
   
   def run!
-    Post.all(:domain=>domain).destroy!
-    Category.all(:domain=>domain).each do |cat|
+    Merb.logger.warn { "Restoring Domain #{domain}" }
+    Post.all(:domain_name=>domain).destroy!
+    Category.all(:domain_name=>domain).each do |cat|
       cat.destroy #this SHOULD take CategoryPost connections with it
     end
     categories.each do |e|
-      Category.create(Restore.category_to_hash(e))
+      Category.create(category_to_hash(e))
     end
     entries.each do |e|
-      Post.create(Restore.entry_to_hash(e))
+      Post.create(entry_to_hash(e))
     end
   end
   
@@ -46,26 +47,34 @@ class Restore
     entries.map {|e| e/('title/text()')}
   end
   
-  def self.category_to_hash(e)
+  def category_to_hash(e)
     { :name=>(e/'name/text()').to_s,
       :description=>(e/'description/text()').to_s,
-      :domain=>domain}
+      :domain_name=>domain}
   end
   
-  def self.entry_to_hash(e)
+  def entry_to_hash(e)
     h = Hash.new
-    h[:index] = Integer(e/('index/text()'))
-    h[:title] = e/('title/text()').to_s
+    h[:index] = Integer((e/'index/text()').to_s)
+    h[:title] = (e/'title/text()').to_s
     h[:text] = (e/'text/pre/text()').to_s
     h[:guid] = (e/'guid/text()').to_s
-    h[:published_at] = DateTime.parse((e/'time/published/text()').to_s)
-    h[:updated_at] = DateTime.parse((e/'time/updated/text()').to_s)
-    h[:created_at] = DateTime.parse((e/'time/created/text()').to_s)
+    h[:published_at] = parse_date(e/'times/published/text()')
+    h[:updated_at] = parse_date(e/'times/updated/text()')
+    h[:created_at] = parse_date(e/'times/created/text()')
     
-    h[:domain] = domain
+    h[:domain_name] = domain
     
     h[:categories] = (e/'categories/category').map {|c| Category.first(:name=>c.text) || c.text} 
     
     h
+  end
+  
+  def parse_date(d)
+    begin
+      DateTime.parse(d.to_s)
+    rescue ArgumentError
+      return nil
+    end
   end
 end

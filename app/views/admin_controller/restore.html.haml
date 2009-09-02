@@ -1,6 +1,6 @@
 %h1 Restore Domain: #{@restore.domain}
 %p 
-  This will wipe out #{Post.all(:domain=>@restore.domain).count} posts and 
+  This will wipe out #{Post.all(:domain_name=>@restore.domain).count} posts and 
   replace them with the following:
 %form{:action=>url(:backup), :enctype=>"multipart/form-data", :method=>"post"}
   %p

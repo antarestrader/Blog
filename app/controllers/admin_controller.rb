@@ -44,6 +44,7 @@ private
     File.unlink(filename)
     return redirect url(:backup) unless params[:submit] == 'Restore'
     @restore = Restore.new(file)
+    @restore.domain = params[:restore_domain]
     if @restore.run!
       message[:notice] = "Backup Restored Successfully"
       redirect url(:home)

@@ -1,6 +1,6 @@
 - headers['Content-Disposition'] = 'attachment; filename=backup.xml'
 !!! xml
-%backup{:date=>Time.now.utc.to_s, :domain=>params[:domain], :version=>'1.0.0'}
+%backup{:date=>Time.now.utc.to_s, :domain=>@domain.domain_name, :version=>'1.0.0'}
   %categories
     - @categories.each do |category|
       %category
