@@ -7,19 +7,20 @@ class Post
   property :allow_comments, Boolean, :default=>true
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
   property :guid, String, :lazy=>true
-  property :domain, String, :index=>true
   property :index, Integer, :index=>true
   
   property :published_at, DateTime
   property :updated_at, DateTime
   property :created_at, DateTime
   
+  belongs_to :domain, :child_key=>[:domain_name]
+  
   has n, :categories, :through=> Resource
   has n, :comments
   
   #set index
   before :create do
-    attribute_set(:index, 1 + (Post.max(:index,:domain=>self.domain) || 0)) unless self.index
+    attribute_set(:index, 1 + (Post.max(:index,:domain_name=>self.domain_name) || 0)) unless self.index
   end
   
   class << self

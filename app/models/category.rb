@@ -2,10 +2,11 @@ class Category
   include DataMapper::Resource
   
   property :id, Serial
-  property :name, String, :unique_index=>true
+  property :name, String, :index=>true
   property :description, String,:length=>255
   property :post_count, Integer, :writer => :private
-  property :domain, String, :index=>true
+  
+  belongs_to :domain, :child_key=>[:domain_name]
   
   has n, :posts, :through => Resource
   

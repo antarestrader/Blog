@@ -10,6 +10,7 @@ class CategoryController < Application
   
   def show(id)
     category = @categories_availible.get(id)
+    raise NotFound unless category
     @headline = category.name
     @posts = category.posts.published
     render :template=>'post_controller/index', :layout=>'post_controller'

@@ -41,7 +41,7 @@ class PostController < Application
     raise NotFound unless @post
     @post.categories= get_categories
     @post.attributes= params['post']
-    @post.domain= domain[:database]
+    @post.domain= @domain
     set_publication(@post,params)
     if @post.save && (@post.published? || @post.pending?)
       redirect resource(@post)
@@ -63,7 +63,7 @@ class PostController < Application
     @post = Post.new
     @post.categories= get_categories
     @post.attributes= params['post']
-    @post.domain= domain[:database]
+    @post.domain= @domain
     set_publication(@post,params)
     unless @post.save
       @action = url(:posts) 

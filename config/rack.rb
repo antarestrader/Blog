@@ -8,7 +8,7 @@ end
 
 require 'multistatic'
 
-use Merb::Rack::MultiStatic, Merb.config[:domains] if Merb::Config[:multidomain]
+use Merb::Rack::MultiStatic, Domain.all if Merb::Config[:multidomain]
 use Merb::Rack::Static, Merb.dir_for(:public)
 
 # this is our main merb application

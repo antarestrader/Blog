@@ -6,12 +6,12 @@ module Merb
         super(app)
         @file_servers = {}
         @roots = {}
-        domains.keys.each do |domain|
-          if domains[domain][:root]
-            puts "Adding static route for \"#{domain}\" at:\n    #{domains[domain][:root]}"
-            @file_servers[domain] =
-                ::Rack::File.new(domains[domain][:root]) 
-            @roots[domain] = domains[domain][:root]
+        domains.each do |domain|
+          if domain.public_root
+            puts "Adding static route for \"#{domain.domain_name}\" at:\n    #{domain.public_root}"
+            @file_servers[domain.domain_name] =
+                ::Rack::File.new(domain.public_root) 
+            @roots[domain.domain_name] = domain.public_root
           end
         end   
       end
@@ -46,7 +46,7 @@ module Merb
       def get_domain(env)
         host = env[Merb::Const::HTTP_X_FORWARDED_HOST] || env[Merb::Const::HTTP_HOST] ||
             env[Merb::Const::SERVER_NAME]
-        host.sub(/:\d+$/,'')
+        host.sub(/:\d+$/,'') #remove port if it exists
       end
       
       def file_exist_in_domain?(path,root)

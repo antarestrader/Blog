@@ -1,12 +1,14 @@
 class Application < Merb::Controller
-    
+  
+  #depreciated
   def self.set_repository(r)
     if DataMapper::Repository.adapters.has_key?(r)
       Merb.logger.debug { "  using database: #{r.inspect}" }
       DataMapper::Repository.context << DataMapper::repository(r)
     end
   end
-  
+
+  #depreciated
   def self.reset_repository(r=nil)
     if DataMapper::Repository.adapters.has_key?(r) || r.nil?
       DataMapper::Repository.context.pop
@@ -15,13 +17,10 @@ class Application < Merb::Controller
   
   if Merb.config[:multidomain]
     Merb.logger.info { "Setting up dispatch for Multiple Domains" }
-    Merb.logger.debug { "  domains: #{Merb::Config[:domains].inspect}" }
-
     before do
       d = params[:domain] = request.domain(5)
       Merb.logger.debug { "  domain is: #{d}" }
-      raise NotFound, "No Known Domain: #{d}" unless Merb::Config[:domains].has_key?(d)
-      @domain = Merb::Config[:domains][d]
+      raise NotFound, "No Known Domain: #{d}" unless @domain = Domain.get(d)
     end
     
     before :set_domain
@@ -36,19 +35,12 @@ class Application < Merb::Controller
     @_old_reload_templates, Merb::Config[:reload_templates] = Merb::Config[:reload_templates], true
     @_old_template_roots = self.class._template_roots.dup
       Merb.logger.debug { "  template root was:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
-    
-    #ensure new rout exists
-    unless @domain[:template_root]
-      raise NotFound, 
-            "expected to find a path at #{@domain[:template_root]}.\n\
-            Please check the formatting of you blogs.yml file." 
-    end
-      Merb.logger.info { "Dispatching for domain: #{@domain[:name]} (#{@domain[:template_root]})" }
+
+    Merb.logger.info { "Dispatching for domain: #{@domain.domain_name} (#{@domain.template_root})" }
     
     #push our Route onto the stack
-    self.class._template_roots << [@domain[:template_root],:_template_location]
+    self.class._template_roots << [@domain.template_root,:_template_location]
       Merb.logger.debug { "  template root now:\n  #{self.class._template_roots.map{|i| i[0]}.join("\n  ")}" }
-      Merb.logger.debug { "  old template template root is:\n  #{@_old_template_roots.map{|i| i[0]}.join("\n  ")}" }
       
   end
   
@@ -60,12 +52,12 @@ class Application < Merb::Controller
   end
   
   def domain
-    @domain ||= Hash.new("").freeze
+    @domain ||= Domain.new
   end
     
   def domain_finder
     if Merb.config[:multidomain]
-      {:domain=>domain[:database]}
+      {:domain_name=>@domain.key}
     else
       {}
     end

@@ -2,13 +2,13 @@
 !!!
 %html
   %head
-    %title= (@domain && @domain[:name] )|| "Blog: by John F. Miller"
+    %title= (@domain && @domain.title )|| "Blog: by John F. Miller"
     =partial('partials/links')
   %body.application
     #container
       .header
         .headerimg
-          %h1 (@domain && @domain[:name] )|| "Blog: by John F. Miller"
+          %h1 (@domain && @domain.title )|| "Blog: by John F. Miller"
           %p#tagline Write wht you want post when you wish
           #mainmenu= partial('partials/menu')
       #main
