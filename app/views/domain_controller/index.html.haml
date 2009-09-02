@@ -1,0 +1,17 @@
+%h1 Domain Controller
+- @domains.each do |domain|
+  .header
+    %h2= h domain.title
+    %h2= link_to(domain.domain_name,"http://#{domain.domain_name}")
+  .content
+    %h3 Description:
+    %p= h domain.description
+    %h3 Path Info:
+    %p
+      <strong>Template Root</strong>:
+      %code= domain.template_root
+    %p
+      <strong>Public Root</strong>:
+      %code= domain.public_root
+    %hr/
+   
