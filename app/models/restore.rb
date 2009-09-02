@@ -57,7 +57,7 @@ class Restore
     h = Hash.new
     h[:index] = Integer((e/'index/text()').to_s)
     h[:title] = (e/'title/text()').to_s
-    h[:text] = (e/'text/pre/text()').to_s
+    h[:text] = CGI.unescapeHTML((e/'text/pre/text()').to_s.gsub('&#xA0;',' '))
     h[:guid] = (e/'guid/text()').to_s
     h[:published_at] = parse_date(e/'times/published/text()')
     h[:updated_at] = parse_date(e/'times/updated/text()')
@@ -69,7 +69,7 @@ class Restore
     
     h
   end
-  
+
   def parse_date(d)
     begin
       DateTime.parse(d.to_s)
