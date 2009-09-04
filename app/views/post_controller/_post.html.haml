@@ -17,7 +17,7 @@
       ~ post.summary
     %p.actions
       - if post.extended
-        =link_to("read more",resource(post))
+        =link_to("Read More",resource(post))
       %span.admin
         = link_to("edit",resource(post,'edit'), :rel=>'nofollow')
         = link_to("delete", resource(post,:delete), :rel=>'nofollow')
