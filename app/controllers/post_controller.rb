@@ -77,14 +77,14 @@ class PostController < Application
     end
   end
   
-  def delete(id)
-    @post = @posts_availible.index id
+  def delete(index)
+    @post = @posts_availible.post_number index
     raise NotFound unless @post
     render
   end
   
-  def destroy(id)
-    @post = @posts_availible.index id
+  def destroy(index)
+    @post = @posts_availible.post_number index
     raise NotFound unless @post
     return redirect resource(@post) unless params[:submit] == "Delete" #handle cancel button
     Merb.logger.info { "Deleting post: #{@post.title || @post.index}" }
