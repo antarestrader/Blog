@@ -2,8 +2,8 @@ class Domain
   include DataMapper::Resource
   
   property :domain_name, String, :length=>80, :key=>true
-  property :template_root, FilePath
-  property :public_root, FilePath
+  property :template_root, FilePath, :length=>255
+  property :public_root, FilePath, :length=>255
   property :title, String, :length=>140
   property :description, Text #used in feeds etc...
   
