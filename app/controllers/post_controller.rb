@@ -22,7 +22,7 @@ class PostController < Application
     render
   end
   
-  def show(index)
+  def show(index = nil)
     index ||= params["p"]
     @post = @posts_availible.post_number index
     raise NotFound, h([index,@posts_availible].inspect) unless @post
