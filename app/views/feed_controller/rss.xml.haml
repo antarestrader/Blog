@@ -1,10 +1,9 @@
 !!! xml
 %rss{:version=>"2.0"}
   %channel
-    %title= h(@domain[:name]+ "Blog Posts")
+    %title= h(@domain.title+ "Blog Posts")
     %link= absolute_url(:home)
-    %description 
-      A blog about Ruby and the development of Antares Trader, an online space trading game
+    %description= h domain.description
     %language en-us
     %copyright Copyright 2007-#{Time.now.year} John F. Miller.
     %pubDate= Time.now.utc.rfc822
