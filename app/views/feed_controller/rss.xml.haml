@@ -14,9 +14,9 @@
     - @posts.each do |post|
       %item
         %title= h post.title
-        %link= absolute_url(:post,:id=>post.id)
+        %link= absolute_url(:post,:index=>post.index)
         %description
-          = h(post.summary+"<p>#{link_to("read more",absolute_url(:post,:id=>post.id))}</p>")
+          = h(post.summary+"<p>#{link_to("read more",absolute_url(:post,:index=>post.index))}</p>")
         %author emperor@antarestrader.com
         %guid{:isPermaLink=>"false"}= post.guid
         %pubDate= post.published_at.to_time.rfc822

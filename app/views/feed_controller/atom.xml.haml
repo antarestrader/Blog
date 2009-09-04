@@ -15,10 +15,10 @@
       %id= post.guid
       %updated= post.updated_at.to_time.xmlschema
       %published= post.published_at.to_time.xmlschema
-      %link{:rel=>"alternate", :type=>"text/html", :href=>absolute_url(:post,:id=>post.id)}/
-      %content{:type=>'text/html', :src=>absolute_url(:post,:id=>post.id)}
+      %link{:rel=>"alternate", :type=>"text/html", :href=>absolute_url(:post,:index=>post.index)}/
+      %content{:type=>'text/html', :src=>absolute_url(:post,:index=>post.index)}
       %summary{:type=>'xhtml'}
         %div{:xmlns=>'http://www.w3.org/1999/xhtml'}
           = post.summary
           - if post.extended
-            =link_to("read more",absolute_url(:post,:id=>post.id))
+            =link_to("read more",absolute_url(:post,:index=>post.index))
