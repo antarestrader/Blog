@@ -26,6 +26,8 @@ class PostController < Application
     index ||= params["p"]
     @post = @posts_availible.post_number index
     raise NotFound, h([index,@posts_availible].inspect) unless @post
+    @title = @post.title
+    @title << " - #{@domain.title}" if @domain
     display @post
   end
   

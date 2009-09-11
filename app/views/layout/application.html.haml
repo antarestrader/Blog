@@ -2,7 +2,7 @@
 !!!
 %html
   %head
-    %title= (@domain && @domain.title )|| "Blog: by John F. Miller"
+    %title= h(@title ||(@domain && @domain.title )|| "Blog: by John F. Miller")
     =partial('partials/links')
   %body.application
     #container
