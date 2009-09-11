@@ -11,13 +11,13 @@ Merb::Router.prepare do
     match('/backup(.:format)',:method=>:post).to(:action=>'restore').name(:backup)
     resources :domains, :controller=>DomainController
   end
-  match('/',:query_string=>/p=\d+/).to(:controller => 'post_controller', :action =>'show', :id=>'[1]')
+  match('/',:query_string=>/p=\d+$/).to(:controller => 'post_controller', :action =>'show', :id=>'[1]')
   
   #atom & rss feeds
   match('/feed/:action(.xml)').to(:controller=> 'feed_controller').name(:feeds)
-  match('/',:query_string=>/feed=rss2/).to(:controller => 'feed_controller', :action =>'rss') #old wordpress format
+  match('/',:query_string=>/feed=rss2$/).to(:controller => 'feed_controller', :action =>'rss') #old wordpress format
   
-  match('/',:query_string=>/(tag|cat)=/).defer_to do |request, params|
+  match('/',:query_string=>/(author|tag|cat|%)=/).defer_to do |request, params|
     raise Merb::ControllerExceptions::NotAcceptable, "Query String Unknown: #{request.query_string[0,20]}"
   end
   
