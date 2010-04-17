@@ -13,7 +13,7 @@ class Post
   property :updated_at, DateTime
   property :created_at, DateTime
   
-  belongs_to :domain, :child_key=>[:domain_name]
+  belongs_to :domain, :child_key=>[:domain_name], :required=>false
   
   has n, :categories, :through=> Resource
   has n, :comments

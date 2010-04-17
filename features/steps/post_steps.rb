@@ -37,7 +37,9 @@ end
 When (/^click publish$/) do
   click_button "Post"
   webrat_session.response.should be_successful
+  webrat_session.current_url.should_not =~ %r[edit/?$]
   @post = Post.first(:title=>@post.title)
+  @post.should_not be_nil
 end
 
 When (/^click edit$/) do
@@ -110,7 +112,7 @@ end
 
 Then(/^I should see the post editing screen for #{noun}$/) do |noun|
   @it = get_noun(noun)
-  webrat_session.response.url.should =~ %r[#{resource(@it,:edit)}/?$]
+  webrat_session.current_url.should =~ %r[#{resource(@it,:edit)}/?$]
 end
 
 Then(/^the update time for #{noun} should be set$/) do |noun|

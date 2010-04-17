@@ -50,5 +50,5 @@ end
 
 Then(/^I should see the page for #{noun}$/) do |noun|
   @it = get_noun(noun)
-  webrat_session.response.url.should =~ %r[#{resource(@it)}/?$]
+  webrat_session.current_url.should =~ %r[#{resource(@it)}/?$]
 end
