@@ -2,8 +2,8 @@ class Post
   include DataMapper::Resource
   
   property :id, Serial
-  property :title, String, :length=>250, :nullable => false
-  property :text, Text, :nullable => false
+  property :title, String, :length=>250, :required=>true
+  property :text, Text, :required=>true
   property :allow_comments, Boolean, :default=>true
   property :format, Enum['Markdown','HTML','Textile'], :default=>'Markdown'
   property :guid, String, :lazy=>true
@@ -71,7 +71,8 @@ class Post
     uid = attribute_get(:guid)
     return uid unless uid.nil?
     uid = "tag:blog.antarestrader.com,2009:/post_id/#{attribute_get(:id)}"
-    update_attributes :guid=>uid
+    attribute_set :guid, uid
+    save unless new_record?
     uid
   end
   

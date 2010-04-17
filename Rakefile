@@ -1,8 +1,6 @@
 require 'rubygems'
-
-if (local_gem_dir = File.join(File.dirname(__FILE__), '..', 'gems')) && $BUNDLE.nil?
-  $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
-end
+require "bundler"
+Bundler.setup
 
 require 'rake/rdoctask'
 

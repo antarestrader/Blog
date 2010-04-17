@@ -23,7 +23,8 @@ class PostController < Application
   end
   
   def show(index = nil)
-    index ||= params["p"]
+    index ||= params["p"] || params["index"]
+    raise NotFound, h([index,@posts_availible].inspect) unless index
     @post = @posts_availible.post_number index
     raise NotFound, h([index,@posts_availible].inspect) unless @post
     @title = @post.title
@@ -31,14 +32,16 @@ class PostController < Application
     display @post
   end
   
-  def edit(index)
+  def edit(index = nil)
+    index ||= params["p"] || params["index"]
     @post = @posts_availible.post_number index
     raise NotFound unless @post
     @action = resource(@post)
     render
   end
   
-  def update(index)
+  def update(index = nil)
+    index ||= params["p"] || params["index"]
     @post = @posts_availible.post_number index
     raise NotFound unless @post
     @post.categories= get_categories
@@ -79,16 +82,18 @@ class PostController < Application
     end
   end
   
-  def delete(index)
+  def delete(index=nil)
+    index ||= params["p"] || params["index"]
     @post = @posts_availible.post_number index
     raise NotFound unless @post
     render
   end
   
-  def destroy(index)
+  def destroy(index=nil)
+    index ||= params["p"] || params["index"]
     @post = @posts_availible.post_number index
     raise NotFound unless @post
-    return redirect resource(@post) unless params[:submit] == "Delete" #handle cancel button
+    return redirect resource(@post) unless params[:form_submit] == "Delete" #handle cancel button
     Merb.logger.info { "Deleting post: #{@post.title || @post.index}" }
     @post.destroy
     redirect url(:admin)
@@ -97,7 +102,7 @@ class PostController < Application
 private
   
   def set_publication(post,params)
-    case params['submit']
+    case params['form_submit']
       when 'Post'
         post.published_at = Time.now.utc
       when 'Edit'

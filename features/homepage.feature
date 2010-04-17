@@ -10,14 +10,14 @@ Scenario: Seeing Public Posts
   When I visit the home page
   Then I should see those posts
 
-@passing
+@active
 Scenario: Reading More of a Post
   Given there is a published post
   And I am a visitor
   When I visit the home page
   Then I should see that post
-  And that post should have a read more link
-  When I click on the read more link for that post
+  And that post should have a Read More link
+  When I click on the Read More link for that post
   Then I should see the page for that post
 
 @passing

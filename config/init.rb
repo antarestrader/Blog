@@ -1,7 +1,5 @@
 # Go to http://wiki.merbivore.com/pages/init-rb
  
-require 'config/dependencies.rb'
- 
 use_orm :datamapper
 use_test :rspec
 use_template_engine :haml
@@ -13,6 +11,7 @@ Merb::Config.use do |c|
   # cookie session store configuration
   c[:session_secret_key]  = 'fb41e88bc8a478b0e8a4af0b3072b0757ce4a6b3'  # required for cookie session store
   c[:session_id_key] = '_blog_session_id' # cookie session id key, defaults to "_session_id"
+  c[:kernel_dependencies] = false
   c[:compass] = {
      :stylesheets => 'app/stylesheets',
      :compiled_stylesheets => 'public/stylesheets'
@@ -20,6 +19,9 @@ Merb::Config.use do |c|
 end
  
 Merb::BootLoader.before_app_loads do
+  Merb::Cache.setup do
+    register(Merb::Cache::FileStore) unless Merb.cache
+  end
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
 end
  

@@ -57,7 +57,7 @@ class Application < Merb::Controller
     
   def domain_finder
     if Merb.config[:multidomain]
-      {:domain_name=>@domain.key}
+      {:domain_name=>@domain.domain_name}
     else
       {}
     end

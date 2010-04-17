@@ -24,3 +24,8 @@ merb_profile_results
 public/stylesheets/*.css
 config/database.yml
 config/blogs.yml
+vendor/gems
+vendor/specifications
+vendor/doc
+vendor/environment.rb
+

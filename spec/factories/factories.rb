@@ -28,7 +28,8 @@ should only provide attributes that are required through validations and
 that do not have defaults. Other factories can be created through inheritence
 to cover common scenarios for each class. 
 LorimIpsom
-  
+  f.domain_name   "default"
+  f.sequence(:index){|n| n}
 end
 
 Factory.define :published_post, :parent=>:post do |f|

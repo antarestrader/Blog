@@ -5,23 +5,21 @@ if ENV['MERB_ENV'] == 'production'
 end
 
 # Sets up the Merb environment for Cucumber (thanks to krzys and roman)
-require "rubygems"
+#require "rubygems"
+require "bundler"
 
-# Add the local gems dir if found within the app root; any dependencies loaded
-# hereafter will try to load from the local gems before loading system gems.
-if (local_gem_dir = File.join(File.dirname(__FILE__), '..', 'gems')) && $BUNDLE.nil?
-  $BUNDLE = true; Gem.clear_paths; Gem.path.unshift(local_gem_dir)
+module Bundler
+  def self.require(*groups)
+    runtime.require(*groups)
+  end
 end
-
-gem "merb-core", "1.0.11"
 
 require "merb-core"
 require "spec"
 require "merb_cucumber/world/webrat"
 require "merb_cucumber/helpers/datamapper"
 require "timecop"
-require "factory_girl"
-require Merb.root/'spec'/'factories'/'factories.rb'
+
 
 # Uncomment if you want transactional fixtures
 # Merb::Test::World::Base.use_transactional_fixtures
@@ -32,6 +30,9 @@ def Spec.run? ; true; end
 
 Merb.start_environment(:testing => true, :adapter => 'runner', :environment => ENV['MERB_ENV'] || 'test')
 DataMapper.auto_migrate! if Merb.orm == :datamapper
+
+require "factory_girl"
+require Merb.root/'spec'/'factories'/'factories.rb'
 
 Before do
   Post.all.destroy!
