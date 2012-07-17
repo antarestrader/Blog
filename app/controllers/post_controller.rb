@@ -2,6 +2,12 @@ class PostController < Application
   
   before :ensure_authenticated, :exclude => [:index, :show]
   
+  cache :index, :show
+  #eager_cache :create, :index
+  #eager_cache :update, :index
+  #eager_cache :create, :show
+  #eager_cache :create, :show
+  
   before do
     @posts_availible = Post.all(domain_finder)
     @posts_availible = @posts_availible.published unless session.authenticated?

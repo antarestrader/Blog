@@ -17,6 +17,7 @@ class Application < Merb::Controller
   
   if Merb.config[:multidomain]
     Merb.logger.info { "Setting up dispatch for Multiple Domains" }
+    
     before do
       d = params[:domain] = request.domain(5)
       Merb.logger.debug { "  domain is: #{d}" }
@@ -48,7 +49,6 @@ class Application < Merb::Controller
     self.class._template_roots = @_old_template_roots
     Merb::Config[:reload_templates] = @_old_reload_templates
       Merb.logger.debug { "restoring template root: #{self.class._template_roots.inspect}" }
-
   end
   
   def domain

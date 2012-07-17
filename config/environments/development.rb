@@ -13,4 +13,17 @@ Merb::Config.use { |c|
   c[:log_file]  = Merb.root / "log" / "development.log"
   
   c[:multidomain] = true #set this to true to use multiple domains
+  
+  Merb::BootLoader.after_app_loads do
+    require 'multistatic'
+    
+    Merb::Cache.setup do
+      domain_stores = Domain.all.map do |domain|
+        sym = domain.domain_name.to_sym
+        register(sym,Merb::Cache::MultiStore[Merb::Cache::PageStore[Merb::Cache::FileStore]], :domain=>domain.domain_name, :dir=>domain.public_root)
+        sym
+      end
+      register(:default, Merb::Cache::AdhocStore[*domain_stores])
+    end
+  end
 }

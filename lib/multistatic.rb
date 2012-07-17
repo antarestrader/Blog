@@ -31,11 +31,13 @@ module Merb
           serve_from_domain(env,domain)
         elsif file_exist_in_domain?(cached_path,@roots[domain]) && env[Merb::Const::REQUEST_METHOD] =~ /GET|HEAD/ # Serve the page cache if it's there and the request method is GET or HEAD
           env[Merb::Const::PATH_INFO] = cached_path
-          serve_from_domain(env,doamin)
+          serve_from_domain(env,domain)
         else
           @app.call(env)
         end
         
+      rescue
+        [500,{'Content-Type'=>'text/text'},'Rack Multistatic Internal Error']
       end
       
       def serve_from_domain(env,domain)
@@ -55,4 +57,34 @@ module Merb
       end
     end
   end
+  
+  module Cache
+    class MultiStore < ActionStore
+      def initialize(config={})
+        @domain = config[:domain]
+        super
+      end
+      
+      def writable?(dispatch, parameters = {}, conditions = {})
+        str = "Checking writablility:\n"
+        str << [dispatch.class.to_s, dispatch.request.method, dispatch.request.uri].join(', ') << "\n"
+        str << parameters.inspect << "\n"
+        str << conditions.inspect << "\n"
+        if Merb::Controller === dispatch && dispatch.request.domain(5) == @domain
+          ret = @stores.any? {|s| s.writable?(normalize(dispatch), parameters, conditions)}
+          str << (ret ? "Succeeded\n" : "Faild with decendents\n")
+          Merb.logger.debug str
+        else
+          str << "Faild with me\n"
+          Merb.logger.debug str
+          false
+        end
+      end
+      
+      def normalize(dispatch)
+        dispatch
+      end
+    end
+  end
 end
+
